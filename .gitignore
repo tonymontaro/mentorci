@@ -8,3 +8,4 @@ api/__pycache__/
 music
 music/tests/__pycache__/
 music/views/__pycache__/
+db.sqlite3
