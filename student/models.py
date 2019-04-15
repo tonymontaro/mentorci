@@ -1,6 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+STAGES = [
+    "User Centric Frontend Development",
+    "Interactive Frontend Development",
+    "Practical Python",
+    "Data Centric Development",
+    "Full Stack Frameworks with Django"
+]
+
 
 class Student(models.Model):
     name = models.CharField(max_length=255, blank=False)

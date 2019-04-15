@@ -2,8 +2,9 @@ from rest_framework import generics
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.views import status
+from django.http import JsonResponse
 
-from .models import Student
+from .models import Student, STAGES
 from .serializers import StudentSerializer
 from .decorators import validate_student_create_data
 
@@ -74,3 +75,9 @@ class StudentDetailView(generics.RetrieveUpdateDestroyAPIView):
             data={"message": "Only an Admin can delete a student"},
             status=status.HTTP_401_UNAUTHORIZED
         )
+
+
+def student_stages(request, version):
+    return JsonResponse(STAGES, safe=False)
+
+# Todo; Handle DataBase failure
