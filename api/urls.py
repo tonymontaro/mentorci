@@ -8,4 +8,5 @@ urlpatterns = [
     path('api-token-auth/', obtain_jwt_token, name='create-token'),
     re_path('api/(?P<version>(v1|v2))/', include('mentor.urls')),
     re_path('api/(?P<version>(v1|v2))/', include('student.urls')),
+    re_path('api/(?P<version>(v1|v2))/', include('session.urls')),
 ]
