@@ -2,11 +2,15 @@ from rest_framework import generics
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.views import status
+from django.http import JsonResponse
 
-from .models import SessionLog
+from .models import SessionLog, SESSION_TYPES, SESSION_FEELINGS
 from .serializers import SessionLogSerializer, DetailedSessionLogSerializer
 from student.models import Student
 from .decorators import validate_session_create_data
+
+SESSION_TYPES_DICT = dict(SESSION_TYPES)
+SESSION_FEELINGS_DICT = dict(SESSION_FEELINGS)
 
 
 class ListCreateSessionLogView(generics.ListCreateAPIView):
@@ -70,6 +74,10 @@ class SessionLogDetailView(generics.RetrieveUpdateDestroyAPIView):
             session = self.queryset.filter(mentor=self.request.user).get(
                 pk=kwargs["pk"])
             if request.GET.get('detailed', '').lower() == 'true':
+                session.types = '|'.join(
+                    [SESSION_TYPES_DICT.get(t, '') for t in
+                     session.types.split('|')])
+                session.feeling = SESSION_FEELINGS_DICT.get(session.feeling, '')
                 return Response(DetailedSessionLogSerializer(session).data)
             return Response(SessionLogSerializer(session).data)
         except SessionLog.DoesNotExist:
@@ -94,3 +102,11 @@ class SessionLogDetailView(generics.RetrieveUpdateDestroyAPIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         except SessionLog.DoesNotExist:
             return self._session_not_found(kwargs['pk'])
+
+
+def session_types(request, version):
+    return JsonResponse(SESSION_TYPES_DICT)
+
+
+def session_feelings(request, version):
+    return JsonResponse(SESSION_FEELINGS_DICT)

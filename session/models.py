@@ -5,6 +5,22 @@ from django.contrib.auth.models import User
 
 from student.models import Student
 
+SESSION_TYPES = [
+    ('intro', "Intro"),
+    ('inception', "Project inception"),
+    ('middle', "Middle of project"),
+    ('end', "End of project"),
+    ('prep', "Interview preparation and career advice"),
+    ('other', "Other"),
+    ('no-show', "**No-show**")
+]
+
+SESSION_FEELINGS = [
+    ('excellent', "Excellent - It's going great."),
+    ('average', "Average - The student is moving at an acceptable pace."),
+    ('poor', "I'm worried about this student's progress.")
+]
+
 
 class SessionLog(models.Model):
     student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True)
@@ -12,10 +28,10 @@ class SessionLog(models.Model):
     summary = models.TextField(max_length=500, default="")
     concern = models.TextField(max_length=500, default="")
     date = models.CharField(max_length=255, blank=False)
-    types = models.CharField(max_length=255, blank=False)
+    types = models.CharField(max_length=255, blank=False, choices=SESSION_TYPES)
     duration = models.CharField(
         max_length=255, blank=False)
-    feeling = models.TextField(blank=False)
+    feeling = models.TextField(blank=False, choices=SESSION_FEELINGS)
 
     @property
     def duration_in_mins(self):
