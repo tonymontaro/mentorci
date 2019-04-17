@@ -1,3 +1,5 @@
+import os
+
 from rest_framework import generics
 from rest_framework import permissions
 from rest_framework.response import Response
@@ -23,6 +25,12 @@ class ListCreateSessionLogView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return SessionLog.objects.filter(mentor=self.request.user)
+
+    @staticmethod
+    def _fill_google_form(id):
+        if os.getenv('E2E', 'false') == 'true':
+            os.system(
+                'LOGID={} ./node_modules/.bin/nightwatch'.format(id))
 
     @validate_session_create_data
     def post(self, request, *args, **kwargs):
@@ -105,8 +113,8 @@ class SessionLogDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 def session_types(request, version):
-    return JsonResponse(SESSION_TYPES_DICT)
+    return JsonResponse(SESSION_TYPES, safe=False)
 
 
 def session_feelings(request, version):
-    return JsonResponse(SESSION_FEELINGS_DICT)
+    return JsonResponse(SESSION_FEELINGS, safe=False)

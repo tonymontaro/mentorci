@@ -26,8 +26,8 @@ class SessionLog(models.Model):
     student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True)
     mentor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     summary = models.TextField(max_length=500, default="")
-    concern = models.TextField(max_length=500, default="")
-    date = models.CharField(max_length=255, blank=False)
+    concern = models.TextField(max_length=500, default="", null=True)
+    date = models.DateField(blank=False)
     types = models.CharField(max_length=255, blank=False, choices=SESSION_TYPES)
     duration = models.CharField(
         max_length=255, blank=False)

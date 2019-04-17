@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["about"],{f820:function(t,e,a){"use strict";a.r(e);var n=function(){var t=this,e=t.$createElement,a=t._self._c||e;return a("div",{staticClass:"about container"},[a("h3",[t._v("This is an about page")]),a("p",[t._v("User: "+t._s(t.$store.state.authentication.user))])])},s=[],u=a("2877"),i={},o=Object(u["a"])(i,n,s,!1,null,null,null);e["default"]=o.exports}}]);
+//# sourceMappingURL=about.fc8793c0.js.map

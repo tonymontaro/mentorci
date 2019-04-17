@@ -16,8 +16,8 @@ def validate_session_create_data(fn):
         validation_regs = [
             {'name': 'duration', 'pattern': r'^\d{0,2}-\d{0,2}-\d{0,2}$',
              'format': 'HH-MM-SS'},
-            {'name': 'date', 'pattern': r'^\d{0,2}-\d{0,2}-\d{0,4}$',
-             'format': 'DD-MM-YYYY'},
+            {'name': 'date', 'pattern': r'^\d{0,4}-\d{0,2}-\d{0,2}$',
+             'format': 'YYYY-MM-DD'},
         ]
         for item in validation_regs:
             name, pattern, format_ = (

@@ -89,3 +89,6 @@ local_settings.py
 venv
 *.sqlite3
 
+tests_output/
+e2e
+sqlite3.db
