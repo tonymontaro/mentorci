@@ -26,12 +26,6 @@ class ListCreateSessionLogView(generics.ListCreateAPIView):
     def get_queryset(self):
         return SessionLog.objects.filter(mentor=self.request.user)
 
-    @staticmethod
-    def _fill_google_form(id):
-        if os.getenv('E2E', 'false') == 'true':
-            os.system(
-                'LOGID={} ./node_modules/.bin/nightwatch'.format(id))
-
     @validate_session_create_data
     def post(self, request, *args, **kwargs):
         try:

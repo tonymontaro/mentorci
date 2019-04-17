@@ -11,7 +11,9 @@ services:
       - "8000:8000"
 
   nginx:
-    build: ./nginx
+    build:
+      context: .
+      dockerfile: Dockerfile_nginx
     container_name: ng_server
     depends_on:
       - web
