@@ -5,17 +5,19 @@
         <router-link to="/">Home |&nbsp;</router-link>
         <router-link to="/sessions">Sessions |&nbsp;</router-link>
         <router-link to="/profile">Profile |&nbsp;</router-link>
-        <router-link v-if="!$store.state.authentication.user" to="/login"
-          >Login</router-link
-        >
+        <router-link v-if="!$store.state.authentication.user" to="/login">Login</router-link>
         <a href="#" @click="logout" v-else>Logout</a>
       </div>
     </header>
-    <router-view />
+    <router-view/>
     <footer>
       <div class="container">
-        Built with &hearts; by
-        <a target="_blank" href="https://github.com/tonymontaro">tonymontaro</a>
+        <i class="fas fa-mug-hot"></i> By
+        <a target="_blank" href="https://www.linkedin.com/in/anthonyngene/">tonymontaro</a>. Project available
+        <a
+          href="https://github.com/tonymontaro/mentorci"
+          target="_blank"
+        >on github</a>
       </div>
     </footer>
   </div>

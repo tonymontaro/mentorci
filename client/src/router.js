@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Login from "./views/Login.vue";
-import Sessions from "./views/Sessions.vue";
+import Logs from "./views/Logs.vue";
 import Profile from "./views/Profile.vue";
 import StudentDetail from "./views/StudentDetail.vue";
 import LogForm from "./views/LogForm.vue";
@@ -36,7 +36,7 @@ const router = new Router({
     {
       path: "/sessions",
       name: "sessions",
-      component: Sessions
+      component: Logs
     },
     {
       path: "/students/:id/log",

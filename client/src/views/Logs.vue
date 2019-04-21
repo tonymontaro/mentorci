@@ -4,7 +4,7 @@
       <input type="text" placeholder="Search..." v-model="search">
     </div>
 
-    <div class="row">
+    <div class="row" v-if="logs.length > 0 && studentsMap">
       <div class="col s12" v-for="log in logs" v-bind:key="log.id">
         <div class="card blue-grey darken-1 log-card">
           <div href="#" class="card-content white-text">
@@ -62,6 +62,14 @@ export default {
   },
   mounted() {
     $("select").formSelect();
+    this.fetchLogs();
+  },
+  methods: {
+    async fetchLogs() {
+      if (this.$store.state.logs.logs.length === 0) {
+        await this.$store.dispatch("logs/getLogs");
+      }
+    }
   }
 };
 </script>

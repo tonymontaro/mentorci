@@ -48,12 +48,17 @@ export const logs = {
   },
   mutations: {
     getLogsSuccess(state, logs) {
+      logs.forEach(log => {
+        log.durationInMins = Number(log.durationInMins);
+      });
       state.logs = logs;
     },
     createLogSuccess(state, log) {
+      log.durationInMins = Number(log.durationInMins);
       state.logs.unshift(log);
     },
     updateLogSuccess(state, log) {
+      log.durationInMins = Number(log.durationInMins);
       state.logs = state.logs.map(lg => (lg.id == log.id ? log : lg));
     },
     deleteLogSuccess(state, log) {
