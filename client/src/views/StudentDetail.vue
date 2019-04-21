@@ -18,13 +18,7 @@
       <form class="col s12" @submit.prevent="updateStudent">
         <div class="row">
           <div class="input-field col m6 s12">
-            <input
-              v-model="student.name"
-              placeholder="Name"
-              id="name"
-              type="text"
-              class="validate"
-            />
+            <input v-model="student.name" placeholder="Name" id="name" type="text" class="validate">
             <label class="active" for="name">Name</label>
           </div>
           <div class="input-field col m6 s12">
@@ -34,7 +28,7 @@
               type="email"
               class="validate"
               placeholder="email"
-            />
+            >
             <label class="active" for="email">Email</label>
           </div>
         </div>
@@ -45,8 +39,7 @@
                 v-for="stage in $store.state.stages.stages"
                 v-bind:key="stage"
                 :value="stage"
-                >{{ stage }}</option
-              >
+              >{{ stage }}</option>
             </select>
             <label>Stage</label>
           </div>
@@ -57,12 +50,37 @@
               type="text"
               class="validate"
               placeholder="github"
-            />
+            >
             <label class="active" for="github">github</label>
           </div>
         </div>
         <button class="btn">Save</button>
       </form>
+    </div>
+    <!-- Logs -->
+    <h4>Logs</h4>
+    <div class="row" v-if="logs.length > 0">
+      <div class="col s12" v-for="log in logs" v-bind:key="log.id">
+        <div class="card blue-grey darken-1 log-card">
+          <div href="#" class="card-content white-text">
+            <router-link
+              :to="{ name: 'log-edit-form', params: { id: log.student, logid: log.id } }"
+            >
+              <span class="card-title">{{ log.id }} | Date: {{ log.date }}</span>
+            </router-link>
+
+            <p>Duration: {{ parseInt(log.durationInMins) }}mins</p>
+            <p>
+              <span class="yellow-text">Summary:</span>
+              {{ log.summary }}
+            </p>
+            <p v-if="log.concern">
+              <span class="yellow-text">Concern:</span>
+              {{ log.concern }}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -87,6 +105,13 @@ export default {
       );
       if (filtered.length > 0) return filtered[0];
       return undefined;
+    },
+    logs() {
+      let filtered = this.$store.state.logs.logs.filter(
+        log => log.student == this.$route.params.id
+      );
+      if (filtered.length > 0) return filtered;
+      return [];
     }
   },
   methods: {

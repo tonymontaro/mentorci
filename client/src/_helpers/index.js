@@ -13,6 +13,7 @@ export function initApp(store, token) {
   store.dispatch("students/getStudents");
   store.dispatch("logs/getSessionTypes");
   store.dispatch("logs/getSessionFeelings");
+  store.dispatch("logs/getLogs");
 }
 
 export function runGoogleFormProcess(id) {
