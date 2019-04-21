@@ -24,7 +24,7 @@ class ListCreateSessionLogView(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
-        return SessionLog.objects.filter(mentor=self.request.user)
+        return SessionLog.objects.filter(mentor=self.request.user).order_by('-date')
 
     @validate_session_create_data
     def post(self, request, *args, **kwargs):
