@@ -11,7 +11,7 @@
       <p>Stage: {{ student.stage }}</p>
       <p>
         Github:
-        <a :href="student.github | validLink">{{ student.github }}</a>
+        <a target="_blank" :href="student.github | validLink">{{ student.github }}</a>
       </p>
     </div>
     <div v-show="editStudentDetail" class="row">

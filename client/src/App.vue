@@ -52,6 +52,15 @@ export default {
       color: #42b983;
     }
   }
+
+  position: fixed;
+  width: 100%;
+  height: 50px;
+  top: 0;
+  z-index: 999;
+  background: white;
+  padding: 15px;
+  border-bottom: 1px solid #a1a1a1;
 }
 footer {
   padding: 30px 0;

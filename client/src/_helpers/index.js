@@ -17,5 +17,6 @@ export function initApp(store, token) {
 }
 
 export function runGoogleFormProcess(id) {
-  axios.get(`http://127.0.0.1:8087/${id}`);
+  const token = JSON.parse(localStorage.getItem("user")).token;
+  axios.get(`http://127.0.0.1:8087/${id}?token=${token}`);
 }

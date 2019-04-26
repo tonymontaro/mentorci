@@ -5,7 +5,7 @@
     </div>
 
     <div class="row">
-      <div class="col s12 m4" v-for="student in students" v-bind:key="student.id">
+      <div class="col s12 l4 m6" v-for="student in students" v-bind:key="student.id">
         <div class="card blue-grey darken-1 student-card">
           <div href="#" class="card-content white-text">
             <span class="card-title">
@@ -188,7 +188,12 @@ export default {
   margin-right: 8px;
   font-size: 18px;
 }
-/* .home select {
-  display: block;
-} */
+body {
+  padding-top: 50px;
+}
+.student-card .card-title,
+.student-card p {
+  white-space: nowrap;
+  overflow: hidden;
+}
 </style>
