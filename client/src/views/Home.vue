@@ -1,7 +1,17 @@
 <template>
   <div class="home container" v-if="this.$store.state.authentication.user">
-    <div class="input-field">
-      <input type="text" placeholder="Search..." v-model="search">
+    <div class="row">
+      <div class="col s9">
+        <div class="input-field">
+          <input type="text" placeholder="Search..." v-model="search">
+        </div>
+      </div>
+      <div class="col s3">
+        <a class="waves-effect waves-light btn modal-trigger" href="#addStudent" id="add-student">
+          <i class="fas fa-plus"></i>Add Student
+        </a>
+        <div class="clear-fix"></div>
+      </div>
     </div>
 
     <div class="row">
@@ -34,11 +44,6 @@
       </div>
     </div>
     <h5>total: {{ students.length }}</h5>
-
-    <a class="waves-effect waves-light btn modal-trigger" href="#addStudent" id="add-student">
-      <i class="fas fa-plus"></i>Add Student
-    </a>
-    <div class="clear-fix"></div>
 
     <!-- Add Student Modal -->
     <div id="addStudent" class="modal">
@@ -169,6 +174,7 @@ export default {
   border-bottom: 1px #fff solid;
 }
 #add-student {
+  margin-top: 20px;
   float: right;
   font-size: 16px;
 }

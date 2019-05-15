@@ -13,6 +13,7 @@
         Github:
         <a target="_blank" :href="student.github | validLink">{{ student.github }}</a>
       </p>
+      <router-link class="btn" :to="{ name: 'log-form', params: { id: student.id } }">Log Session</router-link>
     </div>
     <div v-show="editStudentDetail" class="row">
       <form class="col s12" @submit.prevent="updateStudent">
