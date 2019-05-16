@@ -71,6 +71,7 @@
             <div class="switch">
               <label class="right">
                 Fill Google Form
+                <a target="_blank" href="https://github.com/tonymontaro/logger-mentorci">info</a>
                 <input type="checkbox" @change="fillGoogleForm">
                 <span class="lever"></span>
               </label>
