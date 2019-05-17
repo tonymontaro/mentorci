@@ -14,5 +14,11 @@ export default new Vuex.Store({
     students,
     stages,
     logs
+  },
+  actions: {
+    clearAll({ commit }) {
+      commit("students/reset");
+      commit("logs/reset");
+    }
   }
 });

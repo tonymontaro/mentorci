@@ -93,3 +93,5 @@ tests_output/
 e2e
 sqlite3.db
 db.json
+.vscode
+client/package-lock.json

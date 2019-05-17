@@ -33,6 +33,9 @@ export const students = {
     },
     createStudentSuccess(state, student) {
       state.students.push(student);
+    },
+    reset(state) {
+      state.students = [];
     }
   }
 };

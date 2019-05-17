@@ -69,6 +69,9 @@ export const logs = {
     },
     getSessionFeelingsSuccess(state, sessionFeelings) {
       state.sessionFeelings = sessionFeelings;
+    },
+    reset(state) {
+      state.logs = [];
     }
   }
 };
