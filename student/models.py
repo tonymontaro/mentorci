@@ -16,6 +16,7 @@ class Student(models.Model):
     stage = models.CharField(max_length=255, blank=True)
     mentor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     github = models.CharField(max_length=255, blank=True)
+    about = models.TextField(blank=True)
 
     def __str__(self):
         return "Student; {}".format(self.name)

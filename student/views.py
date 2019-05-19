@@ -65,8 +65,8 @@ class StudentDetailView(generics.RetrieveUpdateDestroyAPIView):
             student = self.queryset.filter(mentor=self.request.user).get(
                 pk=kwargs["pk"])
             serializer = StudentSerializer()
-            updated_song = serializer.update(student, request.data)
-            return Response(StudentSerializer(updated_song).data)
+            updated_student = serializer.update(student, request.data)
+            return Response(StudentSerializer(updated_student).data)
         except Student.DoesNotExist:
             return self._student_not_found(kwargs['pk'])
 

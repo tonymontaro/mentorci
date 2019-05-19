@@ -1,7 +1,63 @@
 <template>
-  <div class="container" v-if="this.$store.state.authentication.user">
-    <h4>{{ this.$store.state.authentication.user.fullname }}</h4>
-    <p>Email: {{ this.$store.state.authentication.user.email }}</p>
+  <div class="container" v-if="mentor">
+    <h4>
+      {{ mentor.fullname }}
+      <a href="#" @click="showEditForm">
+        <i class="fas fa-pencil-alt"></i>
+      </a>
+    </h4>
+    <div v-show="!editMentorDetail">
+      <p>Email: {{ mentor.email }}</p>
+    </div>
+
+    <div v-show="editMentorDetail" class="row">
+      <form class="col s12" @submit.prevent="updateMentorDetails">
+        <div class="row">
+          <div class="input-field col s12">
+            <input
+              v-model="mentor.fullname"
+              placeholder="Name"
+              id="mentorName"
+              type="text"
+              class="validate"
+            >
+            <label class="active" for="mentorName">Name</label>
+          </div>
+          <div class="input-field col s12">
+            <input
+              v-model="mentor.address"
+              placeholder="e.g 9756 Vernon Drive"
+              id="mentorAddress"
+              type="text"
+            >
+            <label class="active" for="mentorAddress">Address Line 1</label>
+          </div>
+          <div class="input-field col s12">
+            <input v-model="mentor.address_more" placeholder id="mentorAddress2" type="text">
+            <label class="active" for="mentorAddress2">Address Line 2</label>
+          </div>
+          <div class="input-field col s12">
+            <input
+              v-model="mentor.city_country"
+              placeholder="e.g Paris, France"
+              id="mentorCity"
+              type="text"
+            >
+            <label class="active" for="mentorCity">City/Province, Country</label>
+          </div>
+          <div class="input-field col s12">
+            <textarea
+              v-model="mentor.bio"
+              placeholder="Bio"
+              id="mentorBio"
+              class="materialize-textarea"
+            ></textarea>
+            <label class="active" for="mentorBio">Bio</label>
+          </div>
+        </div>
+        <button class="btn">Save</button>
+      </form>
+    </div>
 
     <hr>
 
@@ -28,16 +84,13 @@ export default {
         euros_billable: 0
       },
       billRate: 50,
-      month: ""
+      month: "",
+      editMentorDetail: false,
+      mentor: this.$store.state.authentication.user
     };
   },
   mounted() {
     this.fetchLogs();
-  },
-  computed: {
-    logs() {
-      let result = this.$store.state.logs.logs;
-    }
   },
   methods: {
     async fetchLogs() {
@@ -45,6 +98,12 @@ export default {
         await this.$store.dispatch("logs/getLogs");
       }
       this.createCharts();
+    },
+    showEditForm() {
+      this.editMentorDetail = !this.editMentorDetail;
+    },
+    updateMentorDetails() {
+      this.$store.dispatch("authentication/updateMentor", this.mentor);
     },
     createCharts() {
       const data = this.$store.state.logs.logs.map(log => {

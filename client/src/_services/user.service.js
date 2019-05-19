@@ -15,6 +15,13 @@ function signup(user) {
   });
 }
 
+function update(user) {
+  return axios.put(`${config.apiUrl}mentors/${user.id}/`, user).then(res => {
+    localStorage.setItem("user", JSON.stringify(res.data));
+    return res.data;
+  });
+}
+
 function logout() {
   localStorage.removeItem("user");
 }
@@ -22,5 +29,6 @@ function logout() {
 export const userService = {
   logout,
   login,
-  signup
+  signup,
+  update
 };

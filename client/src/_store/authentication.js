@@ -35,6 +35,16 @@ export const authentication = {
         .catch(error => {
           commit("loginFailure", error);
         });
+    },
+    updateMentor({ commit }, user) {
+      userService
+        .update(user)
+        .then(user => {
+          commit("loginSuccess", user);
+        })
+        .catch(error => {
+          commit("loginFailure", error);
+        });
     }
   },
   mutations: {

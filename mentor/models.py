@@ -6,8 +6,11 @@ from django.dispatch import receiver
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(max_length=500, blank=True)
+    bio = models.TextField(blank=True)
     fullname = models.CharField(max_length=255, blank=True)
+    address = models.CharField(max_length=255, blank=True)
+    address_more = models.CharField(max_length=255, blank=True)
+    city_country = models.CharField(max_length=255, blank=True)
 
 
 @receiver(post_save, sender=User)

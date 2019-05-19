@@ -8,12 +8,13 @@ class StudentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Student
-        fields = ("id", "name", "email", "stage", "github", "mentorID")
+        fields = ("id", "name", "email", "stage", "github", "mentorID", "about")
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get("name", instance.name)
         instance.email = validated_data.get("email", instance.email)
         instance.stage = validated_data.get("stage", instance.stage)
         instance.github = validated_data.get("github", instance.github)
+        instance.about = validated_data.get("about", instance.about)
         instance.save()
         return instance

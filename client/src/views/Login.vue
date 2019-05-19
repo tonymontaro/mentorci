@@ -1,17 +1,10 @@
 <template>
   <div class="container">
     <h2>Login</h2>
-    <h3>{{ $store.state.authentication.user }}</h3>
     <form @submit.prevent="login" v-show="showSignIn">
       <div class="form-group">
         <label for="login-email">Email</label>
-        <input
-          type="text"
-          v-model="email"
-          name="email"
-          id="login-email"
-          class="form-control"
-        />
+        <input type="text" v-model="email" name="email" id="login-email" class="form-control">
       </div>
       <div class="form-group">
         <label for="login-password">Password</label>
@@ -21,7 +14,7 @@
           id="login-password"
           name="password"
           class="form-control"
-        />
+        >
       </div>
       <p>
         <a href="#" @click="toggleSignIn">Sign Up?</a>
@@ -41,7 +34,7 @@
           id="signup-email"
           class="form-control"
           required
-        />
+        >
       </div>
       <div class="form-group">
         <label for="signup-fullname">Full Name*</label>
@@ -52,7 +45,7 @@
           id="signup-fullname"
           class="form-control"
           required
-        />
+        >
       </div>
       <div class="form-group">
         <label for="signup-password">Password*</label>
@@ -63,16 +56,11 @@
           name="password"
           class="form-control"
           required
-        />
+        >
       </div>
       <div class="form-group">
         <label for="signup-bio">Bio</label>
-        <textarea
-          v-model="bio"
-          name="signup-bio"
-          id="bio"
-          class="materialize-textarea"
-        ></textarea>
+        <textarea v-model="bio" name="signup-bio" id="bio" class="materialize-textarea"></textarea>
       </div>
       <p>
         <a href="#" @click="toggleSignIn">Sign In?</a>

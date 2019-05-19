@@ -25,7 +25,7 @@ def login_user(request, username, password):
     return False
 
 
-class LoginView(generics.CreateAPIView):
+class LoginView(generics.RetrieveAPIView):
     """
     POST auth/login/
     """
@@ -73,3 +73,26 @@ class RegisterUsers(generics.CreateAPIView):
             data=user_data,
             status=status.HTTP_201_CREATED
         )
+
+class UpdateMentor(generics.UpdateAPIView):
+    """
+    POST mentors/:id
+    """
+    queryset = User.objects.all()
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def put(self, request, *args, **kwargs):
+        try:
+            mentor = self.queryset.get(pk=kwargs["pk"])
+            serializer = UserSerializer()
+            updated_mentor = serializer.update(mentor, request.data)
+            updated_mentor.token = jwt_encode_handler(
+                jwt_payload_handler(updated_mentor)
+            )
+            return Response(UserSerializer(updated_mentor).data)
+        except User.DoesNotExist:
+            return Response(
+                data={
+                    "message": "Mentor with ID {} not found.".format(kwargs["pk"])},
+                status=status.HTTP_404_NOT_FOUND
+            )
