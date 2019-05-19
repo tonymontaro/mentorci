@@ -102,8 +102,9 @@ export default {
     showEditForm() {
       this.editMentorDetail = !this.editMentorDetail;
     },
-    updateMentorDetails() {
-      this.$store.dispatch("authentication/updateMentor", this.mentor);
+    async updateMentorDetails() {
+      await this.$store.dispatch("authentication/updateMentor", this.mentor);
+      this.editMentorDetail = false;
     },
     createCharts() {
       const data = this.$store.state.logs.logs.map(log => {

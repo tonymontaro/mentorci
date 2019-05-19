@@ -9,6 +9,7 @@
     <div v-show="!editStudentDetail">
       <p>Email: {{ student.email }}</p>
       <p>Stage: {{ student.stage }}</p>
+      <p v-show="student.about">About: {{ student.about }}</p>
       <p>
         Github:
         <a target="_blank" :href="student.github | validLink">{{ student.github }}</a>
@@ -53,6 +54,17 @@
               placeholder="github"
             >
             <label class="active" for="github">github</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <textarea
+              v-model="student.about"
+              placeholder="About"
+              id="studentAbout"
+              class="materialize-textarea"
+            ></textarea>
+            <label class="active" for="studentAbout">About</label>
           </div>
         </div>
         <button class="btn">Save</button>
