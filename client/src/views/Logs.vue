@@ -27,6 +27,12 @@
         </div>
       </div>
     </div>
+
+    <div class="fixed-action-btn">
+      <a class="btn-floating btn-large" href="#pageTop">
+        <i class="fas fa-chevron-up"></i>
+      </a>
+    </div>
   </div>
 </template>
 
