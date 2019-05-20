@@ -62,7 +62,14 @@
     <hr>
 
     <div>
-      <h5>Month: {{ this.month }}</h5>
+      <div class="row">
+        <div class="input-field col m6 s12">
+          <select v-model="month" @change="createCharts">
+            <option v-for="month in availableMonths" v-bind:key="month" :value="month">{{ month }}</option>
+          </select>
+          <label>Month</label>
+        </div>
+      </div>
       <p>Hours: {{ totals.hours }}</p>
       <p>Total Billable: &euro;{{ totals.euros_billable }}</p>
     </div>
@@ -84,13 +91,39 @@ export default {
         euros_billable: 0
       },
       billRate: 50,
-      month: "",
+      month: this.getCurrentYearMonth(),
       editMentorDetail: false,
-      mentor: this.$store.state.authentication.user
+      mentor: this.$store.state.authentication.user,
+      monthDim: ""
     };
   },
   mounted() {
     this.fetchLogs();
+  },
+  computed: {
+    logData() {
+      return this.$store.state.logs.logs.map(log => {
+        return {
+          id: log.id,
+          date: log.date,
+          month: log.date.slice(0, 7),
+          fullDate: new Date(log.date),
+          duration: log.durationInMins
+        };
+      });
+    },
+    availableMonths() {
+      const months = [];
+      this.logData.map(d => {
+        const year = d.fullDate.getFullYear();
+        let month = d.fullDate.getMonth() + 1;
+        month = month > 8 ? month : "0" + month;
+        const date = `${year}-${month}`;
+        if (!months.includes(date)) months.push(date);
+      });
+      this.month = months[0];
+      return months;
+    }
   },
   methods: {
     async fetchLogs() {
@@ -98,6 +131,8 @@ export default {
         await this.$store.dispatch("logs/getLogs");
       }
       this.createCharts();
+      $("select").formSelect();
+      self.monthDim = "";
     },
     showEditForm() {
       this.editMentorDetail = !this.editMentorDetail;
@@ -107,52 +142,57 @@ export default {
       this.editMentorDetail = false;
     },
     createCharts() {
-      const data = this.$store.state.logs.logs.map(log => {
-        return {
-          id: log.id,
-          date: log.date,
-          month: log.date.slice(0, 7),
-          fullDate: new Date(log.date),
-          duration: log.durationInMins
+      if (this.monthDim) {
+        this.monthDim.filter(this.month);
+        dc.redrawAll();
+      } else {
+        const data = this.logData;
+        let facts = crossfilter(data);
+        let all = facts.groupAll();
+
+        const allDim = facts.dimension(d => d.date);
+        this.monthDim = facts.dimension(d => d.month);
+        var yAxis = d3
+          .scaleLinear()
+          .domain([
+            0,
+            allDim
+              .group()
+              .reduceSum(d => d.duration)
+              .top(1)[0].value
+          ])
+          .range([0, 960]);
+        this.monthDim.filter(this.month);
+
+        const display = () => {
+          this.setTotals(
+            facts
+              .groupAll()
+              .reduceSum(d => d.duration)
+              .value()
+          );
         };
-      });
-      let facts = crossfilter(data);
-      let all = facts.groupAll();
+        const xAxisDomain = d3
+          .range(31)
+          .map(i => `${i > 8 ? i + 1 : "0" + (i + 1)}`);
+        const dayDim = facts.dimension(d => d.date.slice(-2));
+        const dayGroup = dayDim.group().reduceSum(d => d.duration);
 
-      const currentYearMonth = this.getCurrentYearMonth();
-      let monthDim = facts.dimension(d => d.month);
-      this.month = currentYearMonth;
-      monthDim.filter(currentYearMonth);
+        dc.barChart("#dayVsMins")
+          .width(500)
+          .height(300)
+          .margins({ top: 10, right: 50, bottom: 40, left: 30 })
+          .dimension(dayDim)
+          .group(dayGroup)
+          .on("pretransition", display)
+          .yAxisLabel("Time (mins)")
+          .xAxisLabel("Day")
+          .y(yAxis)
+          .x(d3.scaleBand().domain(xAxisDomain))
+          .xUnits(dc.units.ordinal);
 
-      const display = () => {
-        this.setTotals(
-          facts
-            .groupAll()
-            .reduceSum(d => d.duration)
-            .value()
-        );
-      };
-      const dateSet = [];
-      const dayDim = facts.dimension(d => {
-        if (dateSet.indexOf(d.date) == -1) {
-          dateSet.push(d.date);
-        }
-        return d.date;
-      });
-      const dayGroup = dayDim.group().reduceSum(d => d.duration);
-      dc.barChart("#dayVsMins")
-        .width(500)
-        .height(300)
-        .margins({ top: 10, right: 50, bottom: 70, left: 30 })
-        .dimension(dayDim)
-        .group(dayGroup)
-        .on("pretransition", display)
-        .yAxisLabel("Time (mins)")
-        .xAxisLabel("Day")
-        .x(d3.scaleBand().domain(dateSet.reverse()))
-        .xUnits(dc.units.ordinal);
-
-      dc.renderAll();
+        dc.renderAll();
+      }
     },
     getCurrentYearMonth() {
       const today = new Date();
@@ -180,6 +220,6 @@ div.dc-chart {
 
 #dayVsMins .x.axis text {
   text-anchor: end !important;
-  transform: rotate(-45deg);
+  transform: rotate(-45deg) translate(-5px, -5px);
 }
 </style>
