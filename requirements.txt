@@ -4,10 +4,11 @@ django-cors-headers==2.5.2
 djangorestframework==3.7.7
 djangorestframework-jwt==1.11.0
 gunicorn==19.7.1
+Pillow==6.0.0
 psycopg2-binary==2.8.2
 PyJWT==1.6.1
 python-dotenv==0.10.1
 pytz==2018.3
+reportlab==3.5.21
 sqlparse==0.3.0
 mysqlclient==1.4.1
-
