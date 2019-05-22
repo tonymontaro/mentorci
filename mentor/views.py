@@ -132,7 +132,8 @@ class Invoice(generics.CreateAPIView):
             date__year__gte=year,
             date__month__gte=month,
             date__year__lte=year,
-            date__month__lte=month)
+            date__month__lte=month,
+            mentor=self.request.user)
         session_data = []
         count, mins = 1, 0
         for log in logs:
