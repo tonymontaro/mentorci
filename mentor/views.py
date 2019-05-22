@@ -1,6 +1,12 @@
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 
+from django.utils import timezone    
+from django.core.mail import EmailMessage
+from io import BytesIO
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+
 from rest_framework import generics
 from rest_framework import permissions
 from rest_framework.response import Response
@@ -8,6 +14,8 @@ from rest_framework.views import status
 from rest_framework_jwt.settings import api_settings
 
 from .serializers import UserSerializer
+from session.models import SessionLog
+from .invoice import generate_invoice
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
@@ -76,7 +84,7 @@ class RegisterUsers(generics.CreateAPIView):
 
 class UpdateMentor(generics.UpdateAPIView):
     """
-    POST mentors/:id
+    PUT mentors/:id
     """
     queryset = User.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
@@ -95,4 +103,56 @@ class UpdateMentor(generics.UpdateAPIView):
                 data={
                     "message": "Mentor with ID {} not found.".format(kwargs["pk"])},
                 status=status.HTTP_404_NOT_FOUND
+            )
+
+
+class Invoice(generics.CreateAPIView):
+    """
+    POST mentors/invoice
+    """
+    queryset = User.objects.all()
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        date = request.data['date']
+        mentor_info = {
+            'name': request.user.profile.fullname,
+            'address': request.user.profile.address,
+            'address_more': request.user.profile.address_more,
+            'city': request.user.profile.city_country,
+        }
+        date_and_number = {
+            'date': date,
+            'number': request.data['number'],
+        }
+
+        year = int(date[:4])
+        month = int(date[5:7])
+        logs = SessionLog.objects.filter(
+            date__year__gte=year,
+            date__month__gte=month,
+            date__year__lte=year,
+            date__month__lte=month)
+        session_data = []
+        count, mins = 1, 0
+        for log in logs:
+            session_data.append((count, log.student.name, '', '', log.duration.replace('-', ' : ')))
+            count += 1
+            mins += log.duration_in_mins
+            
+        hourly_fee = float(request.data['hourlyFee'])
+        hours = mins/60
+        totals = {
+            'hours': round(hours, 2),
+            'hourly_fee': hourly_fee,
+            'total_amount': round(hours * hourly_fee, 2),
+        }
+        pdf = generate_invoice(mentor_info, date_and_number, totals, session_data)
+        msg = EmailMessage("CodeInstitute Invoice - {}".format(date), "Please find the invoice attached to this email.", to=["ngeneanthony@gmail.com"])
+        msg.attach('Invoice-{}.pdf'.format(date), pdf, 'application/pdf')
+        msg.content_subtype = "html"
+        msg.send()
+        return Response(
+                data={"message": "all good"},
+                status=status.HTTP_201_CREATED
             )

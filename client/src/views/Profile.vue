@@ -70,6 +70,38 @@
           <label>Month</label>
         </div>
       </div>
+      <span class="right">
+        Invoice
+        <button class="btn" @click="showInvoiceForm = !showInvoiceForm">
+          <i class="fas fa-money-check"></i>
+        </button>
+      </span>
+      <div v-show="showInvoiceForm" class="row">
+        <form class="col s12" @submit.prevent="generateInvoice">
+          <div class="row">
+            <div class="input-field col m6 s12">
+              <input
+                v-model="invoice.date"
+                placeholder="Date"
+                id="invoiceDate"
+                type="date"
+                class="validate"
+              >
+              <label class="active" for="invoiceDate">Date</label>
+            </div>
+            <div class="input-field col m6 s12">
+              <input v-model="invoice.number" id="invoiceNumber" type="text">
+              <label class="active" for="invoiceNumber">Invoice Number</label>
+            </div>
+            <div class="input-field col m6 s12">
+              <input v-model="invoice.hourlyFee" id="hourlyFee" type="text">
+              <label class="active" for="hourlyFee">Hourly Fee</label>
+            </div>
+          </div>
+          <button class="btn">Generate Invoice</button>
+        </form>
+      </div>
+
       <p>Hours: {{ totals.hours }}</p>
       <p>Total Billable: &euro;{{ totals.euros_billable }}</p>
     </div>
@@ -81,6 +113,10 @@
 
 
 <script>
+import moment from "moment";
+import axios from "axios";
+import config from "../_config";
+
 export default {
   name: "logs",
   data() {
@@ -93,8 +129,14 @@ export default {
       billRate: 50,
       month: this.getCurrentYearMonth(),
       editMentorDetail: false,
+      showInvoiceForm: false,
       mentor: this.$store.state.authentication.user,
-      monthDim: ""
+      monthDim: "",
+      invoice: {
+        date: this.getInvoiceNumberDate(),
+        number: this.getInvoiceNumberDate("number"),
+        hourlyFee: 50
+      }
     };
   },
   mounted() {
@@ -137,62 +179,74 @@ export default {
     showEditForm() {
       this.editMentorDetail = !this.editMentorDetail;
     },
+    getLastDay() {
+      let year, month;
+      if (!this.month) {
+        const today = new Date();
+        year = today.getFullYear();
+        month = today.getMonth();
+      } else {
+        [year, month] = this.month.split("-");
+      }
+      return new Date(Number(year), Number(month), 0);
+    },
+    getInvoiceNumberDate(type) {
+      const date = this.getLastDay();
+      return type == "number"
+        ? moment(+date).format("#YYYYMM")
+        : moment(+date).format("YYYY-MM-DD");
+    },
     async updateMentorDetails() {
       await this.$store.dispatch("authentication/updateMentor", this.mentor);
       this.editMentorDetail = false;
     },
+    async generateInvoice() {
+      const res = await axios.post(
+        `${config.apiUrl}mentors/invoice/`,
+        this.invoice
+      );
+      alert(
+        `Invoice PDF sent to ${this.$store.state.authentication.user.email}`
+      );
+      this.showInvoiceForm = false;
+    },
     createCharts() {
-      if (this.monthDim) {
-        this.monthDim.filter(this.month);
-        dc.redrawAll();
-      } else {
-        const data = this.logData;
-        let facts = crossfilter(data);
-        let all = facts.groupAll();
+      this.invoice.number = this.getInvoiceNumberDate("number");
+      this.invoice.date = this.getInvoiceNumberDate();
+      const data = this.logData;
+      let facts = crossfilter(data);
+      let all = facts.groupAll();
 
-        const allDim = facts.dimension(d => d.date);
-        this.monthDim = facts.dimension(d => d.month);
-        var yAxis = d3
-          .scaleLinear()
-          .domain([
-            0,
-            allDim
-              .group()
-              .reduceSum(d => d.duration)
-              .top(1)[0].value
-          ])
-          .range([0, 960]);
-        this.monthDim.filter(this.month);
+      this.monthDim = facts.dimension(d => d.month);
+      this.monthDim.filter(this.month);
 
-        const display = () => {
-          this.setTotals(
-            facts
-              .groupAll()
-              .reduceSum(d => d.duration)
-              .value()
-          );
-        };
-        const xAxisDomain = d3
-          .range(31)
-          .map(i => `${i > 8 ? i + 1 : "0" + (i + 1)}`);
-        const dayDim = facts.dimension(d => d.date.slice(-2));
-        const dayGroup = dayDim.group().reduceSum(d => d.duration);
+      const display = () => {
+        this.setTotals(
+          facts
+            .groupAll()
+            .reduceSum(d => d.duration)
+            .value()
+        );
+      };
+      const xAxisDomain = d3
+        .range(this.getLastDay().getDate())
+        .map(i => `${i > 8 ? i + 1 : "0" + (i + 1)}`);
+      const dayDim = facts.dimension(d => d.date.slice(-2));
+      const dayGroup = dayDim.group().reduceSum(d => d.duration);
 
-        dc.barChart("#dayVsMins")
-          .width(500)
-          .height(300)
-          .margins({ top: 10, right: 50, bottom: 40, left: 30 })
-          .dimension(dayDim)
-          .group(dayGroup)
-          .on("pretransition", display)
-          .yAxisLabel("Time (mins)")
-          .xAxisLabel("Day")
-          .y(yAxis)
-          .x(d3.scaleBand().domain(xAxisDomain))
-          .xUnits(dc.units.ordinal);
+      dc.barChart("#dayVsMins")
+        .width(500)
+        .height(300)
+        .margins({ top: 10, right: 50, bottom: 40, left: 30 })
+        .dimension(dayDim)
+        .group(dayGroup)
+        .on("pretransition", display)
+        .yAxisLabel("Time (mins)")
+        .xAxisLabel("Day")
+        .x(d3.scaleBand().domain(xAxisDomain))
+        .xUnits(dc.units.ordinal);
 
-        dc.renderAll();
-      }
+      dc.renderAll();
     },
     getCurrentYearMonth() {
       const today = new Date();

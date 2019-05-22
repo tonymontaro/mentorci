@@ -4,7 +4,7 @@
       <input type="text" placeholder="Search..." v-model="search">
     </div>
 
-    <div class="row" v-if="logs.length > 0 && studentsMap">
+    <div class="row" v-if="logs.length > 0 && Object.keys(studentsMap).length > 0">
       <div class="col s12" v-for="log in logs" v-bind:key="log.id">
         <div class="card blue-grey darken-1 log-card">
           <div href="#" class="card-content white-text">
@@ -14,7 +14,14 @@
               <span class="card-title">{{ log.id }} | Date: {{ log.date }}</span>
             </router-link>
 
-            <p>{{studentsMap[log.student].name}} | Duration: {{ parseInt(log.durationInMins) }}mins</p>
+            <p>
+              <span class="yellow-text">Name:</span>
+              {{studentsMap[log.student].name}} |
+              <span class="yellow-text">Duration:</span>
+              {{ parseInt(log.durationInMins) }}mins |
+              <span class="yellow-text">Type:</span>
+              {{log.types.split('|').join(', ')}}
+            </p>
             <p>
               <span class="yellow-text">Summary:</span>
               {{ log.summary }}
