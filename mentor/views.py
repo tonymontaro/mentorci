@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 
-from django.utils import timezone    
+from django.utils import timezone
 from django.core.mail import EmailMessage
 from io import BytesIO
 from reportlab.pdfgen import canvas
@@ -82,6 +82,7 @@ class RegisterUsers(generics.CreateAPIView):
             status=status.HTTP_201_CREATED
         )
 
+
 class UpdateMentor(generics.UpdateAPIView):
     """
     PUT mentors/:id
@@ -101,7 +102,8 @@ class UpdateMentor(generics.UpdateAPIView):
         except User.DoesNotExist:
             return Response(
                 data={
-                    "message": "Mentor with ID {} not found.".format(kwargs["pk"])},
+                    "message": "Mentor with ID {} not found.".format(
+                        kwargs["pk"])},
                 status=status.HTTP_404_NOT_FOUND
             )
 
@@ -137,23 +139,28 @@ class Invoice(generics.CreateAPIView):
         session_data = []
         count, mins = 1, 0
         for log in logs:
-            session_data.append((count, log.student.name, '', '', log.duration.replace('-', ' : ')))
+            session_data.append((count, log.student.name, '', '',
+                                 log.duration.replace('-', ' : ')))
             count += 1
             mins += log.duration_in_mins
-            
+
         hourly_fee = float(request.data['hourlyFee'])
-        hours = mins/60
+        hours = mins / 60
         totals = {
             'hours': round(hours, 2),
             'hourly_fee': hourly_fee,
             'total_amount': round(hours * hourly_fee, 2),
         }
-        pdf = generate_invoice(mentor_info, date_and_number, totals, session_data)
-        msg = EmailMessage("CodeInstitute Invoice - {}".format(date), "Please find the invoice attached to this email.", to=["ngeneanthony@gmail.com"])
+        pdf = generate_invoice(mentor_info, date_and_number, totals,
+                               session_data)
+        msg = EmailMessage("CodeInstitute Invoice - {}".format(date),
+                           "Find the invoice attached.",
+                           'invoices@codeinstitute.net',
+                           to=[request.user.email])
         msg.attach('Invoice-{}.pdf'.format(date), pdf, 'application/pdf')
         msg.content_subtype = "html"
         msg.send()
         return Response(
-                data={"message": "all good"},
-                status=status.HTTP_201_CREATED
-            )
+            data={"message": "all good"},
+            status=status.HTTP_201_CREATED
+        )

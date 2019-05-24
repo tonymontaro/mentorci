@@ -71,7 +71,10 @@
             <div class="switch">
               <label class="right">
                 Fill Google Form
-                <a target="_blank" href="https://github.com/tonymontaro/logger-mentorci">info</a>
+                <a
+                  target="_blank"
+                  href="https://github.com/tonymontaro/logger-mentorci"
+                >info</a>
                 <input type="checkbox" @change="fillGoogleForm">
                 <span class="lever"></span>
               </label>
@@ -182,13 +185,15 @@ export default {
       this.log.student = this.student.id;
       this.log.mentor = this.mentor.id;
       this.log.duration = this.formatTime();
+      let newLog;
       if (this.$route.params.logid) {
-        await this.$store.dispatch("logs/updateLog", this.log);
+        const res = await this.$store.dispatch("logs/updateLog", this.log);
+        newLog = res.data;
       } else {
-        const newLog = await this.$store.dispatch("logs/createLog", this.log);
-        if (this.runE2E) {
-          runGoogleFormProcess(newLog.id);
-        }
+        newLog = await this.$store.dispatch("logs/createLog", this.log);
+      }
+      if (this.runE2E) {
+        runGoogleFormProcess(newLog.id);
       }
     },
     deleteLog() {
