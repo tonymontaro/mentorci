@@ -1,17 +1,21 @@
 <template>
   <div class="home container" v-if="this.$store.state.authentication.user">
     <div class="row">
-      <div class="col s9">
+      <div class="col m9 s12">
         <div class="input-field">
-          <input type="text" placeholder="Search..." v-model="search">
+          <div class="row">
+            <div class="col s9">
+              <input type="text" placeholder="Search..." v-model="search">
+            </div>
+            <div class="col s3 hide-on-med-and-up">
+              <button class="btn student-search">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col s3">
-        <a class="waves-effect waves-light btn modal-trigger" href="#addStudent" id="add-student">
-          <i class="fas fa-plus"></i>Add Student
-        </a>
-        <div class="clear-fix"></div>
-      </div>
+      <CreateStudentModal/>
     </div>
 
     <div class="row">
@@ -45,61 +49,6 @@
     </div>
     <h5>total: {{ students.length }}</h5>
 
-    <!-- Add Student Modal -->
-    <div id="addStudent" class="modal">
-      <div class="modal-content">
-        <div class="row">
-          <form class="col s12" @submit.prevent="createStudent">
-            <h4 class="center">Add Student</h4>
-            <div class="row">
-              <div class="input-field col m6 s12">
-                <input
-                  v-model="newStudent.name"
-                  placeholder="Name"
-                  id="student-name"
-                  type="text"
-                  class="validate"
-                >
-                <label class="active" for="student-name">Name*</label>
-              </div>
-              <div class="input-field col m6 s12">
-                <input
-                  v-model="newStudent.email"
-                  id="student-email"
-                  type="email"
-                  class="validate"
-                  placeholder="email"
-                  required
-                >
-                <label class="active" for="student-email">Email*</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col m6 s12">
-                <select v-model="newStudent.stage">
-                  <option v-for="stage in stages" v-bind:key="stage" :value="stage">{{ stage }}</option>
-                </select>
-                <label>Stage</label>
-              </div>
-              <div class="input-field col m6 s12">
-                <input
-                  v-model="newStudent.github"
-                  id="github"
-                  type="text"
-                  class="validate"
-                  placeholder="github"
-                >
-                <label class="active" for="github url">GitHub Url</label>
-              </div>
-            </div>
-            <div class="input-field">
-              <button href="#!" class="btn right">Save</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
     <div class="fixed-action-btn">
       <a class="btn-floating btn-large" href="#pageTop">
         <i class="fas fa-chevron-up"></i>
@@ -112,35 +61,25 @@
 // @ is an alias to /src
 import { validLink } from "../_helpers";
 import { initApp } from "../_helpers";
+import CreateStudentModal from "./components/CreateStudentModal.vue";
 
 export default {
   name: "home",
+  components: {
+    CreateStudentModal
+  },
   data() {
     return {
-      search: "",
-      newStudent: {
-        name: "",
-        email: "",
-        stage: "",
-        mentor: this.$store.state.authentication.user.id,
-        github: ""
-      }
+      search: ""
     };
   },
   async mounted() {
-    $(".modal").modal();
-    if (this.$store.state.stages.stages.length == 0)
-      await this.$store.dispatch("stages/getStages");
-    $("select").formSelect();
     const user = this.$store.state.authentication.user;
     if (user && this.$store.state.students.students.length == 0) {
       initApp(this.$store, user.token);
     }
   },
   computed: {
-    stages() {
-      return this.$store.state.stages.stages;
-    },
     students() {
       let result = this.$store.state.students.students;
       if (!this.search) return result;
@@ -153,12 +92,6 @@ export default {
         );
       });
       return result;
-    }
-  },
-  methods: {
-    async createStudent() {
-      await this.$store.dispatch("students/createStudent", this.newStudent);
-      $(".modal").modal("close");
     }
   },
   filters: {
@@ -181,7 +114,6 @@ export default {
 }
 #add-student {
   margin-top: 20px;
-  float: right;
   font-size: 16px;
 }
 #add-student i {
@@ -207,5 +139,8 @@ body {
 .student-card p {
   white-space: nowrap;
   overflow: hidden;
+}
+.student-search {
+  margin-top: 5px;
 }
 </style>

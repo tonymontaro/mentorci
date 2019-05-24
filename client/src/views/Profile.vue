@@ -5,6 +5,8 @@
       <a href="#" @click="showEditForm">
         <i class="fas fa-pencil-alt"></i>
       </a>
+      &nbsp;
+      <a class="btn" href="#" @click="logout">Logout</a>
     </h4>
     <div v-show="!editMentorDetail">
       <p>Email: {{ mentor.email }}</p>
@@ -62,13 +64,14 @@
     <hr>
 
     <div>
-      <div class="row">
-        <div class="input-field col m6 s12">
-          <select v-model="month" @change="createCharts">
-            <option v-for="month in availableMonths" v-bind:key="month" :value="month">{{ month }}</option>
-          </select>
-          <label>Month</label>
-        </div>
+      <div class="input-field">
+        <select class="browser-default" v-model="month" @change="createCharts">
+          <option
+            v-for="month in availableMonths"
+            v-bind:key="month"
+            :value="month"
+          >Month: {{ month }}</option>
+        </select>
       </div>
       <span class="right">
         Invoice
@@ -173,7 +176,6 @@ export default {
         await this.$store.dispatch("logs/getLogs");
       }
       this.createCharts();
-      $("select").formSelect();
       self.monthDim = "";
     },
     showEditForm() {
@@ -262,6 +264,10 @@ export default {
         hours: hours.toFixed(2),
         euros_billable: (hours * this.billRate).toFixed(2)
       };
+    },
+    logout() {
+      this.$store.dispatch("authentication/logout");
+      this.$store.dispatch("clearAll");
     }
   }
 };

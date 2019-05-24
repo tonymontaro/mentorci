@@ -14,6 +14,7 @@
         Github:
         <a target="_blank" :href="student.github | validLink">{{ student.github }}</a>
       </p>
+      <p>Hours: {{hours}}</p>
       <router-link class="btn" :to="{ name: 'log-form', params: { id: student.id } }">Log Session</router-link>
     </div>
     <div v-show="editStudentDetail" class="row">
@@ -125,6 +126,13 @@ export default {
       );
       if (filtered.length > 0) return filtered;
       return [];
+    },
+    hours() {
+      const mins = this.logs.reduce(
+        (initial, val) => initial + val.durationInMins,
+        0
+      );
+      return (mins / 60).toFixed(2);
     }
   },
   methods: {
