@@ -62,13 +62,14 @@
     <hr>
 
     <div>
-      <div class="row">
-        <div class="input-field col m6 s12">
-          <select v-model="month" @change="createCharts">
-            <option v-for="month in availableMonths" v-bind:key="month" :value="month">{{ month }}</option>
-          </select>
-          <label>Month</label>
-        </div>
+      <div class="input-field">
+        <select class="browser-default" v-model="month" @change="createCharts">
+          <option
+            v-for="month in availableMonths"
+            v-bind:key="month"
+            :value="month"
+          >Month: {{ month }}</option>
+        </select>
       </div>
       <span class="right">
         Invoice
@@ -173,7 +174,6 @@ export default {
         await this.$store.dispatch("logs/getLogs");
       }
       this.createCharts();
-      $("select").formSelect();
       self.monthDim = "";
     },
     showEditForm() {

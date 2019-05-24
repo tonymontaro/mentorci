@@ -1,12 +1,16 @@
 <template>
   <div id="app">
     <header>
-      <div id="nav" class="center-align">
-        <router-link to="/">Home |&nbsp;</router-link>
-        <router-link to="/sessions">Sessions |&nbsp;</router-link>
-        <router-link to="/profile">Profile |&nbsp;</router-link>
-        <router-link v-if="!$store.state.authentication.user" to="/login">Login</router-link>
-        <a href="#" @click="logout" v-else>Logout</a>
+      <div id="nav">
+        <div v-if="$store.state.authentication.user">
+          <router-link to="/">Home |&nbsp;</router-link>
+          <router-link to="/sessions">Sessions |&nbsp;</router-link>
+          <router-link to="/profile">Profile |&nbsp;</router-link>
+          <a href="#" @click="logout">Logout</a>
+        </div>
+        <div v-else>
+          <router-link to="/login">Login/Register</router-link>
+        </div>
       </div>
     </header>
     <router-view/>
