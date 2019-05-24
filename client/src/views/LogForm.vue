@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <div v-if="student && mentor">
-      <h4 class="center">Log Session with {{ student.name }}</h4>
+      <h4 class="center">
+        Log Session with
+        <router-link :to="{ name: 'student-detail', params: { id: student.id } }">{{ student.name }}</router-link>
+      </h4>
       <div class="row">
         <form class="col s12" @submit.prevent="createLog">
           <div class="row">
