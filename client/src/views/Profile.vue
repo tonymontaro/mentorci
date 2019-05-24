@@ -5,6 +5,8 @@
       <a href="#" @click="showEditForm">
         <i class="fas fa-pencil-alt"></i>
       </a>
+      &nbsp;
+      <a class="btn" href="#" @click="logout">Logout</a>
     </h4>
     <div v-show="!editMentorDetail">
       <p>Email: {{ mentor.email }}</p>
@@ -262,6 +264,10 @@ export default {
         hours: hours.toFixed(2),
         euros_billable: (hours * this.billRate).toFixed(2)
       };
+    },
+    logout() {
+      this.$store.dispatch("authentication/logout");
+      this.$store.dispatch("clearAll");
     }
   }
 };

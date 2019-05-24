@@ -198,6 +198,7 @@ export default {
       if (this.runE2E) {
         runGoogleFormProcess(newLog.id);
       }
+      router.push("/sessions");
     },
     deleteLog() {
       this.$store.dispatch("logs/deleteLog", this.log);

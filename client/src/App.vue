@@ -6,7 +6,7 @@
           <router-link to="/">Home |&nbsp;</router-link>
           <router-link to="/sessions">Sessions |&nbsp;</router-link>
           <router-link to="/profile">Profile |&nbsp;</router-link>
-          <a href="#" @click="logout">Logout</a>
+          <router-link to="/import">Import&nbsp;</router-link>
         </div>
         <div v-else>
           <router-link to="/login">Login/Register</router-link>
@@ -36,12 +36,6 @@ export default {
     const user = this.$store.state.authentication.user;
     if (user && this.$store.state.students.students.length == 0) {
       initApp(this.$store, user.token);
-    }
-  },
-  methods: {
-    logout() {
-      this.$store.dispatch("authentication/logout");
-      this.$store.dispatch("clearAll");
     }
   }
 };

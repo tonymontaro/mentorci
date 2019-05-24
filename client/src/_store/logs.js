@@ -8,7 +8,8 @@ export const logs = {
   state: {
     logs: [],
     sessionTypes: [],
-    sessionFeelings: []
+    sessionFeelings: [],
+    import: ""
   },
   actions: {
     async getLogs({ commit }) {
@@ -19,7 +20,6 @@ export const logs = {
     async createLog({ commit }, log) {
       const newLog = await logService.createLog(log);
       commit("createLogSuccess", newLog);
-      router.push("/sessions");
       return newLog;
     },
     async updateLog({ commit }, log) {
@@ -69,6 +69,9 @@ export const logs = {
     },
     getSessionFeelingsSuccess(state, sessionFeelings) {
       state.sessionFeelings = sessionFeelings;
+    },
+    setImportText(state, importText) {
+      state.import = importText;
     },
     reset(state) {
       state.logs = [];
