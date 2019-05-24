@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header>
-      <div id="nav">
+      <div id="nav" class="center-align">
         <div v-if="$store.state.authentication.user">
           <router-link to="/">Home |&nbsp;</router-link>
           <router-link to="/sessions">Sessions |&nbsp;</router-link>

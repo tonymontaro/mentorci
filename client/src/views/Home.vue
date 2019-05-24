@@ -1,12 +1,21 @@
 <template>
   <div class="home container" v-if="this.$store.state.authentication.user">
     <div class="row">
-      <div class="col s9">
+      <div class="col m9 s12">
         <div class="input-field">
-          <input type="text" placeholder="Search..." v-model="search">
+          <div class="row">
+            <div class="col s9">
+              <input type="text" placeholder="Search..." v-model="search">
+            </div>
+            <div class="col s3 hide-on-med-and-up">
+              <button class="btn student-search">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col s3">
+      <div class="col m3 s12">
         <a class="waves-effect waves-light btn modal-trigger" href="#addStudent" id="add-student">
           <i class="fas fa-plus"></i>Add Student
         </a>
@@ -207,5 +216,8 @@ body {
 .student-card p {
   white-space: nowrap;
   overflow: hidden;
+}
+.student-search {
+  margin-top: 5px;
 }
 </style>
