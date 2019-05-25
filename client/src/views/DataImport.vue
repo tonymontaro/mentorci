@@ -52,7 +52,7 @@ export default {
     }
   },
   methods: {
-    importData() {
+    async importData() {
       this.$store.commit("logs/setImportText", this.dataFromApi);
       this.data = JSON.parse(this.dataFromApi);
       const unknownStudents = [];
@@ -61,9 +61,12 @@ export default {
           unknownStudents.push(data.student_name);
         }
       });
+
       if (unknownStudents.length == 0) {
         this.message = "";
-        this.data.details.forEach(async data => {
+        const invalidData = [];
+
+        for (const data of this.data.details) {
           const [day, month, year] = data.date.split("/");
           let [hours, mins, secs] = data.duration.split(":");
           hours = hours.length == 1 ? "0" + hours : hours;
@@ -77,11 +80,26 @@ export default {
             summary: "imported",
             feeling: "average"
           };
-          await this.$store.dispatch("logs/createLog", log);
-        });
-        this.dataFromApi = "";
-        this.$store.commit("logs/setImportText", this.dataFromApi);
-        this.message = `<h2 class="green-text">Success!<h2>`;
+          try {
+            await this.$store.dispatch("logs/createLog", log);
+          } catch (error) {
+            invalidData.push(
+              `{"date":"${data.date}","duration":"${
+                data.duration
+              }","student_name":"${data.student_name}"}`
+            );
+          }
+        }
+
+        if (invalidData.length == 0) {
+          this.dataFromApi = "";
+          this.$store.commit("logs/setImportText", this.dataFromApi);
+          this.message = `<h2 class="green-text">Success!<h2>`;
+        } else {
+          this.message = `<p class="red-text">The following could not be imported. Update the code below and try again.</p> <p>{"details":[${invalidData.join(
+            ","
+          )}]}</p>`;
+        }
       } else {
         this.message = `
         <p class="red-text">The following Student Name(s) were not found.<p>

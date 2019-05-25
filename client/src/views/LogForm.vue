@@ -201,7 +201,8 @@ export default {
       router.push("/sessions");
     },
     deleteLog() {
-      this.$store.dispatch("logs/deleteLog", this.log);
+      const confirmDelete = confirm("Sure?");
+      if (confirmDelete) this.$store.dispatch("logs/deleteLog", this.log);
     }
   }
 };
