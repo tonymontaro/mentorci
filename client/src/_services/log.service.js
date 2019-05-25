@@ -1,13 +1,12 @@
-import axios from "axios";
-import config from "../_config";
+import axios from "../_config";
 
 async function getLogs() {
-  const res = await axios.get(`${config.apiUrl}sessions/`);
+  const res = await axios.get("sessions/");
   return res.data;
 }
 
 async function createLog(log) {
-  const res = await axios.post(`${config.apiUrl}sessions/`, log);
+  const res = await axios.post("sessions/", log);
   return res.data;
 }
 

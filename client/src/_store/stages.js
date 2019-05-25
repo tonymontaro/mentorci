@@ -1,5 +1,4 @@
-import axios from "axios";
-import config from "../_config";
+import axios from "../_config";
 
 export const stages = {
   namespaced: true,
@@ -8,7 +7,7 @@ export const stages = {
   },
   actions: {
     async getStages({ commit }) {
-      const res = await axios.get(`${config.apiUrl}students/stages/`);
+      const res = await axios.get(`students/stages/`);
       commit("getStagesSuccess", res.data);
       return res.data;
     }

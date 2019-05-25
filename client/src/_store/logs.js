@@ -1,7 +1,6 @@
 import router from "../router";
 import { logService } from "../_services";
-import axios from "axios";
-import config from "../_config";
+import axios from "../_config";
 
 export const logs = {
   namespaced: true,
@@ -23,26 +22,23 @@ export const logs = {
       return newLog;
     },
     async updateLog({ commit }, log) {
-      const updatedLog = await axios.put(
-        `${config.apiUrl}sessions/${log.id}/`,
-        log
-      );
+      const updatedLog = await axios.put(`sessions/${log.id}/`, log);
       commit("updateLogSuccess", updatedLog);
       router.push("/sessions");
       return updatedLog;
     },
     async deleteLog({ commit }, log) {
-      await axios.delete(`${config.apiUrl}sessions/${log.id}/`);
+      await axios.delete(`sessions/${log.id}/`);
       commit("deleteLogSuccess", log);
       router.push("/sessions");
       return log;
     },
     async getSessionTypes({ commit }) {
-      const res = await axios.get(`${config.apiUrl}sessions/types/`);
+      const res = await axios.get(`sessions/types/`);
       commit("getSessionTypesSuccess", res.data);
     },
     async getSessionFeelings({ commit }) {
-      const res = await axios.get(`${config.apiUrl}sessions/feelings/`);
+      const res = await axios.get(`sessions/feelings/`);
       commit("getSessionFeelingsSuccess", res.data);
     }
   },

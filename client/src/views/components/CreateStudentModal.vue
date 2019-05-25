@@ -88,12 +88,8 @@ export default {
   },
   methods: {
     async createStudent() {
-      try {
-        await this.$store.dispatch("students/createStudent", this.newStudent);
-        $(".modal").modal("close");
-      } catch {
-        alert("Invalid Student details. Email may already exist.");
-      }
+      await this.$store.dispatch("students/createStudent", this.newStudent);
+      $(".modal").modal("close");
     }
   }
 };

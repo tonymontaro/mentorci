@@ -117,8 +117,7 @@
 
 <script>
 import moment from "moment";
-import axios from "axios";
-import config from "../_config";
+import axios from "../_config";
 
 export default {
   name: "logs",
@@ -203,10 +202,7 @@ export default {
       this.editMentorDetail = false;
     },
     async generateInvoice() {
-      const res = await axios.post(
-        `${config.apiUrl}mentors/invoice/`,
-        this.invoice
-      );
+      const res = await axios.post(`mentors/invoice/`, this.invoice);
       alert(
         `Invoice PDF sent to your inbox(${
           this.$store.state.authentication.user.email
