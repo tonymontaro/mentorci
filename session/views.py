@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from .models import SessionLog, SESSION_TYPES, SESSION_FEELINGS
 from .serializers import SessionLogSerializer, DetailedSessionLogSerializer
 from student.models import Student
-from .decorators import validate_session_create_data
+from .decorators import validate_create_data, validate_update_data
 
 SESSION_TYPES_DICT = dict(SESSION_TYPES)
 SESSION_FEELINGS_DICT = dict(SESSION_FEELINGS)
@@ -24,9 +24,10 @@ class ListCreateSessionLogView(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
-        return SessionLog.objects.filter(mentor=self.request.user).order_by('-date')
+        return SessionLog.objects.filter(mentor=self.request.user).order_by(
+            '-date')
 
-    @validate_session_create_data
+    @validate_create_data
     def post(self, request, *args, **kwargs):
         try:
             student = Student.objects.filter(mentor=self.request.user).get(
@@ -85,7 +86,7 @@ class SessionLogDetailView(generics.RetrieveUpdateDestroyAPIView):
         except SessionLog.DoesNotExist:
             return self._session_not_found(kwargs['pk'])
 
-    @validate_session_create_data
+    @validate_update_data
     def put(self, request, *args, **kwargs):
         try:
             session = self.queryset.filter(mentor=self.request.user).get(

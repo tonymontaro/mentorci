@@ -1,11 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 
-from django.utils import timezone
 from django.core.mail import EmailMessage
-from io import BytesIO
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
 
 from rest_framework import generics
 from rest_framework import permissions
@@ -92,7 +88,7 @@ class UpdateMentor(generics.UpdateAPIView):
 
     def put(self, request, *args, **kwargs):
         try:
-            mentor = self.queryset.get(pk=kwargs["pk"])
+            mentor = self.queryset.get(pk=self.request.user.id)
             serializer = UserSerializer()
             updated_mentor = serializer.update(mentor, request.data)
             updated_mentor.token = jwt_encode_handler(
@@ -155,12 +151,11 @@ class Invoice(generics.CreateAPIView):
                                session_data)
         msg = EmailMessage("CodeInstitute Invoice - {}".format(date),
                            "Find the invoice attached.",
-                           'invoices@codeinstitute.net',
                            to=[request.user.email])
         msg.attach('Invoice-{}.pdf'.format(date), pdf, 'application/pdf')
         msg.content_subtype = "html"
         msg.send()
         return Response(
-            data={"message": "all good"},
+            data={"message": "Invoice sent."},
             status=status.HTTP_201_CREATED
         )
