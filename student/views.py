@@ -18,7 +18,7 @@ class ListCreateStudentView(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
-        return Student.objects.filter(mentor=self.request.user)
+        return Student.objects.filter(mentor=self.request.user).order_by('name')
 
     @validate_student_create_data
     def post(self, request, *args, **kwargs):
