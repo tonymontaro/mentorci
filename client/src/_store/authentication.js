@@ -42,8 +42,8 @@ export const authentication = {
         .then(user => {
           commit("loginSuccess", user);
         })
-        .catch(error => {
-          commit("loginFailure", error);
+        .catch(() => {
+          alert("Invalid Details provided");
         });
     }
   },
@@ -57,6 +57,7 @@ export const authentication = {
       state.user = user;
     },
     loginFailure(state, error) {
+      alert("Invalid Login/Registration details.");
       state.status = { error };
       state.user = null;
     }

@@ -208,7 +208,10 @@ export default {
         this.invoice
       );
       alert(
-        `Invoice PDF sent to ${this.$store.state.authentication.user.email}`
+        `Invoice PDF sent to your inbox(${
+          this.$store.state.authentication.user.email
+        })`,
+        "success"
       );
       this.showInvoiceForm = false;
     },

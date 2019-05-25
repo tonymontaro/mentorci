@@ -30,6 +30,12 @@
       >
     </noscript>
     <div id="app"></div>
+    <div id="alertModal" class="modal">
+      <div class="modal-content">
+        <span></span>
+        <p></p>
+      </div>
+    </div>
     <!-- built files will be auto injected -->
     <script
       src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -49,6 +55,17 @@
           speed: 300,
           speedAsDuration: true
         });
+        window.alert = (text, type) => {
+          if (type == "success") {
+            $("#alertModal span").html("Success!");
+            $("#alertModal span").addClass("green-text");
+          } else {
+            $("#alertModal span").html("Something went wrong");
+            $("#alertModal span").addClass("red-text");
+          }
+          $("#alertModal p").html(text);
+          $("#alertModal").modal("open");
+        };
       });
     </script>
   </body>
