@@ -32,7 +32,7 @@ export const students = {
       );
     },
     createStudentSuccess(state, student) {
-      state.students.push(student);
+      state.students.unshift(student);
     },
     reset(state) {
       state.students = [];

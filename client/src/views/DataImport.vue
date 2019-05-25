@@ -57,7 +57,10 @@ export default {
       this.data = JSON.parse(this.dataFromApi);
       const unknownStudents = [];
       this.data.details.forEach(data => {
-        if (!this.studentMap[data.student_name]) {
+        if (
+          !this.studentMap[data.student_name] &&
+          !unknownStudents.includes(data.student_name)
+        ) {
           unknownStudents.push(data.student_name);
         }
       });
@@ -94,7 +97,7 @@ export default {
         if (invalidData.length == 0) {
           this.dataFromApi = "";
           this.$store.commit("logs/setImportText", this.dataFromApi);
-          this.message = `<h2 class="green-text">Success!<h2>`;
+          alert("Data Imported.", "success");
         } else {
           this.message = `<p class="red-text">The following could not be imported. Update the code below and try again.</p> <p>{"details":[${invalidData.join(
             ","

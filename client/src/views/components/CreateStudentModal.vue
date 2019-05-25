@@ -90,6 +90,13 @@ export default {
     async createStudent() {
       await this.$store.dispatch("students/createStudent", this.newStudent);
       $(".modal").modal("close");
+      this.newStudent = {
+        name: "",
+        email: "",
+        stage: "",
+        mentor: this.$store.state.authentication.user.id,
+        github: ""
+      };
     }
   }
 };
