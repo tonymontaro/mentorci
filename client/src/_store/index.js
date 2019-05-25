@@ -5,6 +5,7 @@ import { authentication } from "./authentication";
 import { students } from "./students";
 import { stages } from "./stages";
 import { logs } from "./logs";
+import { loader } from "./loader";
 
 Vue.use(Vuex);
 
@@ -13,7 +14,8 @@ export default new Vuex.Store({
     authentication,
     students,
     stages,
-    logs
+    logs,
+    loader
   },
   actions: {
     clearAll({ commit }) {

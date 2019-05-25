@@ -12,6 +12,7 @@
           <router-link to="/login">Login/Register</router-link>
         </div>
       </div>
+      <loader v-show="$store.state.loader.asyncCalls > 0"></loader>
     </header>
     <router-view/>
     <footer>
@@ -29,9 +30,13 @@
 
 <script>
 import { initApp } from "./_helpers";
+import loader from "./views/components/loader.vue";
 
 export default {
   name: "app",
+  components: {
+    loader
+  },
   created() {
     const user = this.$store.state.authentication.user;
     if (user && this.$store.state.students.students.length == 0) {

@@ -1,21 +1,17 @@
-import axios from "axios";
-import config from "../_config";
+import axios from "../_config";
 
 async function getStudents() {
-  const res = await axios.get(`${config.apiUrl}students/`);
+  const res = await axios.get(`students/`);
   return res.data;
 }
 
 async function updateStudent(student) {
-  const res = await axios.put(
-    `${config.apiUrl}students/${student.id}/`,
-    student
-  );
+  const res = await axios.put(`students/${student.id}/`, student);
   return res.data;
 }
 
 async function createStudent(student) {
-  const res = await axios.post(`${config.apiUrl}students/`, student);
+  const res = await axios.post(`students/`, student);
   return res.data;
 }
 
