@@ -1,8 +1,8 @@
+from collections import defaultdict
+
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
-
 from django.core.mail import EmailMessage
-
 from rest_framework import generics
 from rest_framework import permissions
 from rest_framework.response import Response
@@ -132,16 +132,25 @@ class Invoice(generics.CreateAPIView):
             date__year__lte=year,
             date__month__lte=month,
             mentor=self.request.user)
-        session_data = []
-        count, mins = 1, 0
+        mins_per_student = defaultdict(int)
+        total_minutes = 0
         for log in logs:
-            session_data.append((count, log.student.name, '', '',
-                                 log.duration.replace('-', ' : ')))
-            count += 1
-            mins += log.duration_in_mins
+            mins_per_student[log.student.name] += log.duration_in_mins
+            total_minutes += log.duration_in_mins
+        session_data = []
+        for i, name in zip(range(len(mins_per_student)), mins_per_student):
+            student_mins = mins_per_student[name]
+            hours = int(student_mins // 60)
+            mins = int(student_mins % 60)
+            secs = int(60 * (student_mins % 60 - mins))
+            hours = str(hours) if hours > 9 else '0' + str(hours)
+            mins = str(mins) if mins > 9 else '0' + str(mins)
+            secs = str(secs) if secs > 9 else '0' + str(secs)
+            session_data.append(
+                (i, name, '', '', '{} : {} : {}'.format(hours, mins, secs)))
 
         hourly_fee = float(request.data['hourlyFee'])
-        hours = mins / 60
+        hours = total_minutes / 60
         totals = {
             'hours': round(hours, 2),
             'hourly_fee': hourly_fee,
