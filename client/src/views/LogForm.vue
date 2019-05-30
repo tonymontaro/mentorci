@@ -114,7 +114,7 @@ export default {
       log: {
         student: 0,
         mentor: 0,
-        date: moment().format("YYYY-MM-DD"),
+        date: undefined,
         duration: "",
         types: "",
         concern: "",
