@@ -120,6 +120,10 @@ Found a bug/issue? Please create an **issue** on github.
 - Philipp - [Nginx and Let’s Encrypt with Docker in Less Than 5 Minutes](https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71)
 - [PyInvoice](https://github.com/CiCiApp/PyInvoice) source code
 
+### Inspiration
+
+- Antonija Šimić - [Student Sessions](https://github.com/tonkec/student_sessions)
+
 ### License
 
 [MIT](https://github.com/tonymontaro/mentorci/blob/master/LICENSE)
