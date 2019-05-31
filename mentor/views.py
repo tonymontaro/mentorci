@@ -147,7 +147,7 @@ class Invoice(generics.CreateAPIView):
             mins = str(mins) if mins > 9 else '0' + str(mins)
             secs = str(secs) if secs > 9 else '0' + str(secs)
             session_data.append(
-                (i, name, '', '', '{} : {} : {}'.format(hours, mins, secs)))
+                (i + 1, name, '', '', '{} : {} : {}'.format(hours, mins, secs)))
 
         hourly_fee = float(request.data['hourlyFee'])
         hours = total_minutes / 60
