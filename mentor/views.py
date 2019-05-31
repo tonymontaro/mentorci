@@ -154,7 +154,7 @@ class Invoice(generics.CreateAPIView):
         totals = {
             'hours': round(hours, 2),
             'hourly_fee': hourly_fee,
-            'total_amount': round(hours * hourly_fee, 2),
+            'total_amount': str(round(hours * hourly_fee, 3))[:-1],
         }
         pdf = generate_invoice(mentor_info, date_and_number, totals,
                                session_data)

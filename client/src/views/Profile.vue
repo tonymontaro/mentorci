@@ -261,7 +261,7 @@ export default {
       this.totals = {
         mins: mins,
         hours: hours.toFixed(2),
-        euros_billable: (hours * this.billRate).toFixed(2)
+        euros_billable: String((hours * this.billRate).toFixed(3)).slice(0, -1)
       };
     },
     logout() {
