@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import jwt_decode from "jwt-decode";
 import Home from "./views/Home.vue";
 import Login from "./views/Login.vue";
 import Logs from "./views/Logs.vue";
@@ -60,11 +61,22 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.fullPath !== "/login") {
-    if (!store.state.authentication.user) {
+    if (!store.state.authentication.user || isTokenExpired()) {
+      localStorage.clear();
       return next("/login");
     }
   }
   next();
 });
+
+function isTokenExpired() {
+  const token =
+    JSON.parse(localStorage.getItem("user")) &&
+    JSON.parse(localStorage.getItem("user"))["token"];
+  if (!token || jwt_decode(token).exp < Date.now() / 1000) {
+    return true;
+  }
+  return false;
+}
 
 export default router;

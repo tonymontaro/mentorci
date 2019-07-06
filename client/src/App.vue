@@ -14,7 +14,7 @@
       </div>
       <loader v-show="$store.state.loader.asyncCalls > 0"></loader>
     </header>
-    <router-view/>
+    <router-view />
     <footer>
       <div class="container">
         <i class="fas fa-mug-hot"></i> By
