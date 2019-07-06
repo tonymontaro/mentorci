@@ -11,13 +11,14 @@ class SessionLogSerializer(serializers.ModelSerializer):
         model = SessionLog
         fields = (
             "id", "student", "mentor", "summary", "concern", "date",
-            "types", "duration", "durationInMins", "feeling")
+            "types", "projects", "duration", "durationInMins", "feeling")
 
     def update(self, instance, validated_data):
         instance.summary = validated_data.get("summary", instance.summary)
         instance.concern = validated_data.get("concern", instance.concern)
         instance.date = validated_data.get("date", instance.date)
         instance.types = validated_data.get("types", instance.types)
+        instance.projects = validated_data.get("projects", instance.projects)
         instance.duration = validated_data.get("duration", instance.duration)
         instance.feeling = validated_data.get("feeling", instance.feeling)
         instance.save()
@@ -36,6 +37,6 @@ class DetailedSessionLogSerializer(serializers.ModelSerializer):
         model = SessionLog
         fields = (
             "id", "student", "mentor", "summary", "concern", "date",
-            "types", "duration", "durationInMins", "feeling", "mentorEmail",
+            "types", "projects", "duration", "durationInMins", "feeling", "mentorEmail",
             "studentEmail", "mentorName"
         )

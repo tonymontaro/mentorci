@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 STAGES = [
     "User Centric Frontend Development",
     "Interactive Frontend Development",
-    "Practical Python",
     "Data Centric Development",
     "Full Stack Frameworks with Django"
 ]
