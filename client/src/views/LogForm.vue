@@ -94,8 +94,12 @@
               </label>
             </div>
 
-            <button @click.prevent="deleteLog" v-show="this.$route.params.logid" class="btn red">Del</button>
             <button class="btn">Submit</button>
+            <button
+              @click.prevent="deleteLog"
+              v-show="this.$route.params.logid"
+              class="btn red"
+            >Delete</button>
           </div>
         </form>
       </div>
@@ -144,6 +148,7 @@ export default {
           .split("-")
           .map(i => Number(i));
         this.log = log;
+        this.log.projects = JSON.parse(log.projects);
         this.hours = hours;
         this.minutes = minutes;
         this.seconds = seconds;
@@ -272,6 +277,9 @@ export default {
 }
 .switch {
   margin: 15px 0;
+}
+.btn.red {
+  margin-left: 30px;
 }
 </style>
 
