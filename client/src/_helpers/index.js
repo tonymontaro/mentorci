@@ -8,13 +8,13 @@ export function validLink(link) {
   return link.substring(0, 4) === "http" ? link : `http://${link}`;
 }
 
-export function initApp(store, token) {
+export async function initApp(store, token) {
   init_axios(token);
-  store.dispatch("students/getStudents");
-  store.dispatch("logs/getSessionTypes");
-  store.dispatch("logs/getSessionFeelings");
-  store.dispatch("logs/getLogs");
-  store.dispatch("options/getOptions");
+  await store.dispatch("students/getStudents");
+  await store.dispatch("logs/getSessionTypes");
+  await store.dispatch("logs/getSessionFeelings");
+  await store.dispatch("logs/getLogs");
+  await store.dispatch("options/getOptions");
 }
 
 export function runGoogleFormProcess(id) {
