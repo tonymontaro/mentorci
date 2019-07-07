@@ -164,40 +164,46 @@ export default {
       return undefined;
     },
     logUrl() {
-      const options = this.$store.state.options.options;
-      const rootUrl = options.formUrl,
-        mentorEmail = `&emailAddress=${this.mentor.email}`,
-        mentorName = `&entry.838873576=${this.mentor.fullname}`,
-        date = `&entry.1191000917=${this.log.date}`,
-        studentEmail = `&entry.1269347964=${this.student.email}`,
-        types = this.sessionType.reduce(
-          (cummulative, item) =>
-            cummulative + `&entry.1521715512=${options.typeDict[item]}`,
-          ""
-        ),
-        projects = this.log.projects.reduce(
-          (cummulative, item) =>
-            cummulative + `&entry.478142644=${options.projectDict[item]}`,
-          ""
-        ),
-        duration = `&entry.775489883=${this.formatTime(":")}`,
-        feeeling = `&entry.2010663110=${options.feelingDict[this.log.feeling]}`,
-        summary = `&entry.1882714143=${this.log.summary}`,
-        concern = `&entry.401267824=${this.log.concern}&emailReceipt=true`;
+      const options = this.$store.state.options.options,
+        rootUrl = options.formUrl;
+      if (this.projects) {
+        const mentorEmail = `&emailAddress=${this.mentor.email}`,
+          mentorName = `&entry.838873576=${this.mentor.fullname}`,
+          date = `&entry.1191000917=${this.log.date}`,
+          studentEmail = `&entry.1269347964=${this.student.email}`,
+          types = this.sessionType.reduce(
+            (cummulative, item) =>
+              cummulative + `&entry.1521715512=${options.typeDict[item]}`,
+            ""
+          ),
+          projects = this.log.projects.reduce(
+            (cummulative, item) =>
+              cummulative + `&entry.478142644=${options.projectDict[item]}`,
+            ""
+          ),
+          duration = `&entry.775489883=${this.formatTime(":")}`,
+          feeeling = `&entry.2010663110=${
+            options.feelingDict[this.log.feeling]
+          }`,
+          summary = `&entry.1882714143=${this.log.summary}`,
+          concern = `&entry.401267824=${this.log.concern}&emailReceipt=true`;
 
-      return encodeURI(
-        rootUrl +
-          mentorEmail +
-          mentorName +
-          date +
-          studentEmail +
-          types +
-          projects +
-          duration +
-          feeeling +
-          summary +
-          concern
-      );
+        return encodeURI(
+          rootUrl +
+            mentorEmail +
+            mentorName +
+            date +
+            studentEmail +
+            types +
+            projects +
+            duration +
+            feeeling +
+            summary +
+            concern
+        );
+      } else {
+        return rootUrl;
+      }
     },
     mentor() {
       return this.$store.state.authentication.user;
