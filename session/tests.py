@@ -21,6 +21,7 @@ class BaseSessionTest(BaseViewTest):
             'summary': 'intro',
             'date': '2019-05-25',
             'types': 'other',
+            'projects': '["other"]',
             'duration': '01-20-30',
             'feeling': 'average'
         }
