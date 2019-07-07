@@ -74,7 +74,7 @@
     <!-- Logs -->
     <h4>Logs</h4>
     <div class="row" v-if="logs.length > 0">
-      <div class="col s12" v-for="log in logs" v-bind:key="log.id">
+       <div class="col s12" v-for="log in logs" v-bind:key="log.id">
         <div class="card blue-grey darken-1 log-card">
           <div href="#" class="card-content white-text">
             <router-link
@@ -83,7 +83,15 @@
               <span class="card-title">{{ log.id }} | Date: {{ log.date }}</span>
             </router-link>
 
-            <p>Duration: {{ parseInt(log.durationInMins) }}mins</p>
+            <p>
+              
+              <span class="yellow-text">Duration:</span>
+              {{ parseInt(log.durationInMins) }}mins |
+              <span class="yellow-text">Type:</span>
+              {{log.types.split('|').join(', ')}} |
+              <span class="yellow-text">Project(s):</span>
+              {{log.projects}} 
+            </p>
             <p>
               <span class="yellow-text">Summary:</span>
               {{ log.summary }}
