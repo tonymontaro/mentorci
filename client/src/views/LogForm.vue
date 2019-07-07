@@ -148,7 +148,8 @@ export default {
           .split("-")
           .map(i => Number(i));
         this.log = log;
-        this.log.projects = JSON.parse(log.projects);
+        if (typeof log.projects === "string")
+          this.log.projects = JSON.parse(log.projects);
         this.hours = hours;
         this.minutes = minutes;
         this.seconds = seconds;
@@ -253,6 +254,7 @@ export default {
 
       let newLog;
       if (this.$route.params.logid) {
+        log.id = this.log.id;
         const res = await this.$store.dispatch("logs/updateLog", log);
         newLog = res.data;
       } else {
