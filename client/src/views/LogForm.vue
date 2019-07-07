@@ -131,8 +131,7 @@ export default {
       seconds: undefined,
       sessionType: [],
       showMore: false,
-      runE2E: false,
-      projects: this.$store.state.options.options.projects
+      runE2E: false
     };
   },
   mounted() {
@@ -213,6 +212,9 @@ export default {
     },
     feelings() {
       return this.$store.state.logs.sessionFeelings;
+    },
+    projects() {
+      return this.$store.state.options.options.projects;
     }
   },
   methods: {

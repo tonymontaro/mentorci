@@ -37,10 +37,12 @@ export default {
   components: {
     loader
   },
-  created() {
+  async created() {
     const user = this.$store.state.authentication.user;
     if (user && this.$store.state.students.students.length == 0) {
-      initApp(this.$store, user.token);
+      await initApp(this.$store, user.token);
+      $("select").formSelect();
+      $(".modal").modal();
     }
   }
 };

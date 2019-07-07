@@ -18,7 +18,7 @@
                   id="student-name"
                   type="text"
                   class="validate"
-                >
+                />
                 <label class="active" for="student-name">Name*</label>
               </div>
               <div class="input-field col m6 s12">
@@ -29,7 +29,7 @@
                   class="validate"
                   placeholder="email"
                   required
-                >
+                />
                 <label class="active" for="student-email">Email*</label>
               </div>
             </div>
@@ -47,7 +47,7 @@
                   type="text"
                   class="validate"
                   placeholder="github"
-                >
+                />
                 <label class="active" for="github url">GitHub Url</label>
               </div>
             </div>
