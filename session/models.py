@@ -20,10 +20,10 @@ SESSION_FEELINGS = [
 ]
 
 PROJECTS = [
-    ('user-centric', 'User Centric Front End Development'),
+    ('userCentric', 'User Centric Front End Development'),
     ('interactive', 'Interactive Front End Development'),
-    ('data-centric', 'Data Centric Development'),
-    ('full-stack', 'Full Stack Frameworks with Django'),
+    ('dataCentric', 'Data Centric Development'),
+    ('fullStack', 'Full Stack Frameworks with Django'),
     ('other', 'Other')
 ]
 

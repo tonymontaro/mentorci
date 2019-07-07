@@ -35,6 +35,7 @@ class ListCreateSessionLogView(generics.ListCreateAPIView):
                 concern=request.data.get('concern'),
                 date=request.data.get('date'),
                 types=request.data.get('types'),
+                projects=request.data.get('projects'),
                 duration=request.data.get('duration'),
                 feeling=request.data.get('feeling'),
                 mentor=request.user
@@ -115,5 +116,9 @@ def form_options(request, version):
     return JsonResponse({
         'types': SESSION_TYPES,
         'feelings': SESSION_FEELINGS,
-        'projects': PROJECTS
+        'projects': PROJECTS,
+        'projectDict': dict(PROJECTS),
+        'typeDict': dict(SESSION_TYPES),
+        'feelingDict': dict(SESSION_FEELINGS),
+        'formUrl': os.getenv('formUrl')
     }, safe=False)
