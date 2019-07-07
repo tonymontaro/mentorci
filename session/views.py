@@ -6,13 +6,10 @@ from rest_framework.response import Response
 from rest_framework.views import status
 from django.http import JsonResponse
 
-from .models import SessionLog, SESSION_TYPES, SESSION_FEELINGS
+from .models import SessionLog, SESSION_TYPES, SESSION_FEELINGS, PROJECTS
 from .serializers import SessionLogSerializer, DetailedSessionLogSerializer
 from student.models import Student
 from .decorators import validate_create_data, validate_update_data
-
-SESSION_TYPES_DICT = dict(SESSION_TYPES)
-SESSION_FEELINGS_DICT = dict(SESSION_FEELINGS)
 
 
 class ListCreateSessionLogView(generics.ListCreateAPIView):
@@ -38,6 +35,7 @@ class ListCreateSessionLogView(generics.ListCreateAPIView):
                 concern=request.data.get('concern'),
                 date=request.data.get('date'),
                 types=request.data.get('types'),
+                projects=request.data.get('projects'),
                 duration=request.data.get('duration'),
                 feeling=request.data.get('feeling'),
                 mentor=request.user
@@ -78,9 +76,9 @@ class SessionLogDetailView(generics.RetrieveUpdateDestroyAPIView):
                 pk=kwargs["pk"])
             if request.GET.get('detailed', '').lower() == 'true':
                 session.types = '|'.join(
-                    [SESSION_TYPES_DICT.get(t, '') for t in
+                    [dict(SESSION_TYPES).get(t, '') for t in
                      session.types.split('|')])
-                session.feeling = SESSION_FEELINGS_DICT.get(session.feeling, '')
+                session.feeling = dict(SESSION_FEELINGS).get(session.feeling, '')
                 return Response(DetailedSessionLogSerializer(session).data)
             return Response(SessionLogSerializer(session).data)
         except SessionLog.DoesNotExist:
@@ -113,3 +111,14 @@ def session_types(request, version):
 
 def session_feelings(request, version):
     return JsonResponse(SESSION_FEELINGS, safe=False)
+
+def form_options(request, version):
+    return JsonResponse({
+        'types': SESSION_TYPES,
+        'feelings': SESSION_FEELINGS,
+        'projects': PROJECTS,
+        'projectDict': dict(PROJECTS),
+        'typeDict': dict(SESSION_TYPES),
+        'feelingDict': dict(SESSION_FEELINGS),
+        'formUrl': os.getenv('formUrl')
+    }, safe=False)

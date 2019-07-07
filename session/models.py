@@ -19,6 +19,14 @@ SESSION_FEELINGS = [
     ('poor', "I'm worried about this student's progress.")
 ]
 
+PROJECTS = [
+    ('userCentric', 'User Centric Front End Development'),
+    ('interactive', 'Interactive Front End Development'),
+    ('dataCentric', 'Data Centric Development'),
+    ('fullStack', 'Full Stack Frameworks with Django'),
+    ('other', 'Other')
+]
+
 
 class SessionLog(models.Model):
     student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True)
@@ -27,6 +35,7 @@ class SessionLog(models.Model):
     concern = models.TextField(max_length=500, default="", null=True)
     date = models.DateField(blank=False)
     types = models.CharField(max_length=255, blank=False, choices=SESSION_TYPES)
+    projects = models.CharField(max_length=255, blank=False, default='["other"]')
     duration = models.CharField(
         max_length=255, blank=False)
     feeling = models.TextField(blank=False, choices=SESSION_FEELINGS)

@@ -14,6 +14,7 @@ export function initApp(store, token) {
   store.dispatch("logs/getSessionTypes");
   store.dispatch("logs/getSessionFeelings");
   store.dispatch("logs/getLogs");
+  store.dispatch("options/getOptions");
 }
 
 export function runGoogleFormProcess(id) {

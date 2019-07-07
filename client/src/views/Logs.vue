@@ -20,7 +20,9 @@
               <span class="yellow-text">Duration:</span>
               {{ parseInt(log.durationInMins) }}mins |
               <span class="yellow-text">Type:</span>
-              {{log.types.split('|').join(', ')}}
+              {{log.types.split('|').join(', ')}} |
+              <span class="yellow-text">Project(s):</span>
+              {{log.projects}} 
             </p>
             <p>
               <span class="yellow-text">Summary:</span>
