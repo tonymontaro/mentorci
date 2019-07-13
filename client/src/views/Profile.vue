@@ -6,7 +6,7 @@
         <i class="fas fa-pencil-alt"></i>
       </a>
       &nbsp;
-      <a class="btn" href="#" @click="logout">Logout</a>
+      <a id="logOutBtn" class="btn" href="#" @click="logout">Logout</a>
     </h4>
     <div v-show="!editMentorDetail">
       <p>Email: {{ mentor.email }}</p>
@@ -22,7 +22,7 @@
               id="mentorName"
               type="text"
               class="validate"
-            >
+            />
             <label class="active" for="mentorName">Name</label>
           </div>
           <div class="input-field col s12">
@@ -31,11 +31,11 @@
               placeholder="e.g 9756 Vernon Drive"
               id="mentorAddress"
               type="text"
-            >
+            />
             <label class="active" for="mentorAddress">Address Line 1</label>
           </div>
           <div class="input-field col s12">
-            <input v-model="mentor.address_more" placeholder id="mentorAddress2" type="text">
+            <input v-model="mentor.address_more" placeholder id="mentorAddress2" type="text" />
             <label class="active" for="mentorAddress2">Address Line 2</label>
           </div>
           <div class="input-field col s12">
@@ -44,7 +44,7 @@
               placeholder="e.g Paris, France"
               id="mentorCity"
               type="text"
-            >
+            />
             <label class="active" for="mentorCity">City/Province, Country</label>
           </div>
           <div class="input-field col s12">
@@ -61,7 +61,7 @@
       </form>
     </div>
 
-    <hr>
+    <hr />
 
     <div>
       <div class="input-field">
@@ -89,15 +89,15 @@
                 id="invoiceDate"
                 type="date"
                 class="validate"
-              >
+              />
               <label class="active" for="invoiceDate">Date</label>
             </div>
             <div class="input-field col m6 s12">
-              <input v-model="invoice.number" id="invoiceNumber" type="text">
+              <input v-model="invoice.number" id="invoiceNumber" type="text" />
               <label class="active" for="invoiceNumber">Invoice Number</label>
             </div>
             <div class="input-field col m6 s12">
-              <input v-model="invoice.hourlyFee" id="hourlyFee" type="text">
+              <input v-model="invoice.hourlyFee" id="hourlyFee" type="text" />
               <label class="active" for="hourlyFee">Hourly Fee</label>
             </div>
           </div>
@@ -204,9 +204,7 @@ export default {
     async generateInvoice() {
       const res = await axios.post(`mentors/invoice/`, this.invoice);
       alert(
-        `Invoice PDF sent to your inbox(${
-          this.$store.state.authentication.user.email
-        })`,
+        `Invoice PDF sent to your inbox(${this.$store.state.authentication.user.email})`,
         "success"
       );
       this.showInvoiceForm = false;

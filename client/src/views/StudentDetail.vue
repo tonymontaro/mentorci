@@ -21,7 +21,7 @@
       <form class="col s12" @submit.prevent="updateStudent">
         <div class="row">
           <div class="input-field col m6 s12">
-            <input v-model="student.name" placeholder="Name" id="name" type="text" class="validate">
+            <input v-model="student.name" placeholder="Name" id="name" type="text" class="validate" />
             <label class="active" for="name">Name</label>
           </div>
           <div class="input-field col m6 s12">
@@ -31,7 +31,7 @@
               type="email"
               class="validate"
               placeholder="email"
-            >
+            />
             <label class="active" for="email">Email</label>
           </div>
         </div>
@@ -53,7 +53,7 @@
               type="text"
               class="validate"
               placeholder="github"
-            >
+            />
             <label class="active" for="github">github</label>
           </div>
         </div>
@@ -69,12 +69,13 @@
           </div>
         </div>
         <button class="btn">Save</button>
+        <button id="deleteStudentButton" @click.prevent="deleteStudent" class="right btn red">Delete</button>
       </form>
     </div>
     <!-- Logs -->
     <h4>Logs</h4>
     <div class="row" v-if="logs.length > 0">
-       <div class="col s12" v-for="log in logs" v-bind:key="log.id">
+      <div class="col s12" v-for="log in logs" v-bind:key="log.id">
         <div class="card blue-grey darken-1 log-card">
           <div href="#" class="card-content white-text">
             <router-link
@@ -84,13 +85,14 @@
             </router-link>
 
             <p>
-              
               <span class="yellow-text">Duration:</span>
               {{ parseInt(log.durationInMins) }}mins |
               <span class="yellow-text">Type:</span>
               {{log.types.split('|').join(', ')}} |
-              <span class="yellow-text">Project(s):</span>
-              {{log.projects}} 
+              <span
+                class="yellow-text"
+              >Project(s):</span>
+              {{log.projects}}
             </p>
             <p>
               <span class="yellow-text">Summary:</span>
@@ -155,6 +157,9 @@ export default {
     },
     showEditStudentForm() {
       this.editStudentDetail = !this.editStudentDetail;
+    },
+    async deleteStudent() {
+      await this.$store.dispatch("students/deleteStudent", this.student);
     }
   },
   filters: {

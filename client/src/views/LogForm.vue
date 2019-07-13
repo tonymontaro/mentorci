@@ -6,7 +6,7 @@
         <router-link :to="{ name: 'student-detail', params: { id: student.id } }">{{ student.name }}</router-link>
       </h4>
       <div class="row">
-        <form class="col s12" @submit.prevent="createLog">
+        <form id="createLogForm" class="col s12" @submit.prevent="createLog">
           <div class="row">
             <div class="input-field col m6 s12">
               <input type="date" id="date" v-model="log.date" required />
@@ -14,7 +14,7 @@
             </div>
 
             <div class="input-field col m2 s4">
-              <input type="number" v-model="hours" min="0" max="99" id="hours" required />
+              <input type="number" v-model="hours" min="0" max="99" id="hours" />
               <label class="active" for="hours">(hours)</label>
             </div>
             <div class="input-field col m2 s4">
@@ -22,13 +22,13 @@
               <label class="active" for="mins">(minutes)</label>
             </div>
             <div class="input-field col m2 s4">
-              <input type="number" v-model="seconds" min="0" max="60" id="secs" required />
+              <input type="number" v-model="seconds" min="0" max="60" id="secs" />
               <label class="active" for="secs">(seconds)</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col m6 s12">
-              <select v-model="sessionType" multiple>
+              <select id="sessionTypes" v-model="sessionType" multiple>
                 <option
                   v-for="stype in sessionTypes"
                   v-bind:key="stype[0]"
@@ -38,7 +38,7 @@
               <label>Session Type</label>
             </div>
             <div class="input-field col m6 s12">
-              <select v-model="log.projects" multiple>
+              <select id="logFormProjects" v-model="log.projects" multiple>
                 <option v-for="proj in projects" v-bind:key="proj[0]" :value="proj[0]">{{ proj[1] }}</option>
               </select>
               <label>Project Covered</label>
@@ -96,6 +96,7 @@
 
             <button class="btn">Submit</button>
             <button
+              id="deleteLogButton"
               @click.prevent="deleteLog"
               v-show="this.$route.params.logid"
               class="btn red"

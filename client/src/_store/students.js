@@ -1,4 +1,5 @@
 import { studentService } from "../_services";
+import router from "../router";
 
 export const students = {
   namespaced: true,
@@ -15,6 +16,11 @@ export const students = {
       const updatedStudent = await studentService.updateStudent(student);
       commit("updateStudentSuccess", updatedStudent);
       return updatedStudent;
+    },
+    async deleteStudent({ commit }, student) {
+      const updatedStudent = await studentService.deleteStudent(student);
+      commit("deleteStudentSuccess", student);
+      router.push("/");
     },
     async createStudent({ commit }, student) {
       const newStudent = await studentService.createStudent(student);
@@ -33,6 +39,9 @@ export const students = {
     },
     createStudentSuccess(state, student) {
       state.students.unshift(student);
+    },
+    deleteStudentSuccess(state, student) {
+      state.students = state.students.filter(st => st.id != student.id);
     },
     reset(state) {
       state.students = [];

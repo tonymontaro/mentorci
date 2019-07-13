@@ -21,3 +21,5 @@ yarn-error.log*
 *.sw*
 chromedriver.log
 tests_output/
+
+cypress/integration/examples

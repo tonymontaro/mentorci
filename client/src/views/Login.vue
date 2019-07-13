@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <h2>Login</h2>
-    <form @submit.prevent="login" v-show="showSignIn">
+    <form @submit.prevent="login" v-show="showSignIn" id="loginForm">
       <div class="form-group">
         <label for="login-email">Email</label>
-        <input type="text" v-model="email" name="email" id="login-email" class="form-control">
+        <input type="text" v-model="email" name="email" id="login-email" class="form-control" />
       </div>
       <div class="form-group">
         <label for="login-password">Password</label>
@@ -14,7 +14,7 @@
           id="login-password"
           name="password"
           class="form-control"
-        >
+        />
       </div>
       <p>
         <a href="#" @click="toggleSignIn">Sign Up?</a>
@@ -24,7 +24,7 @@
       </div>
     </form>
 
-    <form @submit.prevent="signup" v-show="!showSignIn">
+    <form @submit.prevent="signup" v-show="!showSignIn" id="signupForm">
       <div class="form-group">
         <label for="signup-email">Email*</label>
         <input
@@ -34,7 +34,7 @@
           id="signup-email"
           class="form-control"
           required
-        >
+        />
       </div>
       <div class="form-group">
         <label for="signup-fullname">Full Name*</label>
@@ -45,7 +45,7 @@
           id="signup-fullname"
           class="form-control"
           required
-        >
+        />
       </div>
       <div class="form-group">
         <label for="signup-password">Password*</label>
@@ -56,7 +56,7 @@
           name="password"
           class="form-control"
           required
-        >
+        />
       </div>
       <div class="form-group">
         <label for="signup-bio">Bio</label>

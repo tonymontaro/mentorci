@@ -5,7 +5,7 @@
         <div class="input-field">
           <div class="row">
             <div class="col s9">
-              <input type="text" placeholder="Search..." v-model="search">
+              <input type="text" placeholder="Search..." v-model="search" />
             </div>
             <div class="col s3 hide-on-med-and-up">
               <button class="btn student-search">
@@ -15,12 +15,12 @@
           </div>
         </div>
       </div>
-      <CreateStudentModal/>
+      <CreateStudentModal />
     </div>
 
     <div class="row">
       <div class="col s12 l4 m6" v-for="student in students" v-bind:key="student.id">
-        <div class="card blue-grey darken-1 student-card">
+        <div class="card blue-grey darken-1 student-card" :testid="student.name">
           <div href="#" class="card-content white-text">
             <span class="card-title">
               <router-link
@@ -42,7 +42,10 @@
           </div>
           <div class="card-action">
             <router-link :to="{ name: 'student-detail', params: { id: student.id } }">View</router-link>
-            <router-link :to="{ name: 'log-form', params: { id: student.id } }">Log Session</router-link>
+            <router-link
+              id="logSessionButton"
+              :to="{ name: 'log-form', params: { id: student.id } }"
+            >Log Session</router-link>
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@
     <div id="addStudent" class="modal">
       <div class="modal-content">
         <div class="row">
-          <form class="col s12" @submit.prevent="createStudent">
+          <form class="col s12" @submit.prevent="createStudent" id="createStudentForm">
             <h4 class="center">Add Student</h4>
             <div class="row">
               <div class="input-field col m6 s12">
