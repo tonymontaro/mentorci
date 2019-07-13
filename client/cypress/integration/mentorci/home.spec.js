@@ -1,5 +1,14 @@
 /// <reference types="Cypress" />
 
+function createStudent() {
+  cy.get("#add-student").click();
+  cy.get("#student-name").type("Uzi Nakamura");
+  cy.get("#student-email").type("uzinaks@test.com");
+  cy.get("#createStudentForm")
+    .find("button")
+    .click();
+}
+
 context("Home Page", () => {
   beforeEach(() => {
     cy.visit("http://localhost:8080");
@@ -9,11 +18,16 @@ context("Home Page", () => {
   });
 
   it("can create student", () => {
-    cy.get("#add-student").click();
-    cy.get("#student-name").type("Uzi Nakamura");
-    cy.get("#student-email").type("uzinaks@test.com");
-    cy.get("#createStudentForm")
-      .find("button")
+    createStudent();
+
+    cy.get('div[testid="Uzi Nakamura"]')
+      .find(".card-title")
+      .should("have.text", "Uzi Nakamura");
+  });
+
+  after(function() {
+    cy.get('div[testid="Uzi Nakamura"]')
+      .find(".card-title")
       .click();
   });
 });

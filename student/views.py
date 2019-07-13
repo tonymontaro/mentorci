@@ -71,10 +71,13 @@ class StudentDetailView(generics.RetrieveUpdateDestroyAPIView):
             return self._student_not_found(kwargs['pk'])
 
     def delete(self, request, *args, **kwargs):
-        return Response(
-            data={"message": "Only an Admin can delete a student"},
-            status=status.HTTP_401_UNAUTHORIZED
-        )
+        try:
+            student = self.queryset.filter(mentor=self.request.user).get(
+                pk=kwargs["pk"])
+            student.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Student.DoesNotExist:
+            return self._student_not_found(kwargs['pk'])
 
 
 def student_stages(request, version):

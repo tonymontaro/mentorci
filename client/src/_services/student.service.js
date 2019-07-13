@@ -15,8 +15,14 @@ async function createStudent(student) {
   return res.data;
 }
 
+async function deleteStudent(student) {
+  await axios.delete(`students/${student.id}`);
+  return true;
+}
+
 export const studentService = {
   getStudents,
   updateStudent,
-  createStudent
+  createStudent,
+  deleteStudent
 };
