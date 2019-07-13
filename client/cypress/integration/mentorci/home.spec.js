@@ -10,7 +10,7 @@ function createStudent() {
 }
 
 context("Home Page", () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit("http://localhost:8080");
     cy.get("#login-email").type("testing@test.com");
     cy.get("#login-password").type("testing000");
