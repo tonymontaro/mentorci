@@ -42,7 +42,10 @@
           </div>
           <div class="card-action">
             <router-link :to="{ name: 'student-detail', params: { id: student.id } }">View</router-link>
-            <router-link :to="{ name: 'log-form', params: { id: student.id } }">Log Session</router-link>
+            <router-link
+              id="logSessionButton"
+              :to="{ name: 'log-form', params: { id: student.id } }"
+            >Log Session</router-link>
           </div>
         </div>
       </div>

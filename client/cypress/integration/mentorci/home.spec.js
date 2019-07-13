@@ -10,7 +10,7 @@ function createStudent() {
 }
 
 context("Home Page", () => {
-  beforeEach(() => {
+  before(() => {
     cy.visit("http://localhost:8080");
     cy.get("#login-email").type("testing@test.com");
     cy.get("#login-password").type("testing000");
@@ -23,11 +23,15 @@ context("Home Page", () => {
     cy.get('div[testid="Uzi Nakamura"]')
       .find(".card-title")
       .should("have.text", "Uzi Nakamura");
+    cy.get(".card-title").should("have.length", 1);
   });
 
-  after(function() {
+  it("can delete student", () => {
     cy.get('div[testid="Uzi Nakamura"]')
       .find(".card-title")
       .click();
+    cy.get(".fa-pencil-alt").click();
+    cy.get("#deleteStudentButton").click();
+    cy.get(".card-title").should("have.length", 0);
   });
 });

@@ -69,7 +69,7 @@
           </div>
         </div>
         <button class="btn">Save</button>
-        <button @click.prevent="deleteStudent" class="right btn red">Delete</button>
+        <button id="deleteStudentButton" @click.prevent="deleteStudent" class="right btn red">Delete</button>
       </form>
     </div>
     <!-- Logs -->
@@ -158,8 +158,8 @@ export default {
     showEditStudentForm() {
       this.editStudentDetail = !this.editStudentDetail;
     },
-    async deleteStudent(){
-      await this.$store.dispatch("students/deleteStudent", this.student)
+    async deleteStudent() {
+      await this.$store.dispatch("students/deleteStudent", this.student);
     }
   },
   filters: {
