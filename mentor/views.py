@@ -58,6 +58,11 @@ class RegisterUsers(generics.CreateAPIView):
         fullname = request.data.get("fullname", "")
         bio = request.data.get("bio", "")
         username = email
+
+        user_exist = login_user(request, username, password)
+        if user_exist:
+            return Response(user_exist)
+
         if not username and not password and not email:
             return Response(
                 data={

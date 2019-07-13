@@ -9,7 +9,7 @@
           <router-link to="/import">Import&nbsp;</router-link>
         </div>
         <div v-else>
-          <router-link to="/login">Login/Register</router-link>
+          <router-link id="authLink" to="/login">Login/Register</router-link>
         </div>
       </div>
       <loader v-show="$store.state.loader.asyncCalls > 0"></loader>

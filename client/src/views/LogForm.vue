@@ -14,15 +14,15 @@
             </div>
 
             <div class="input-field col m2 s4">
-              <input type="number" v-model="hours" min="0" max="99" id="hours" required />
+              <input type="number" v-model="hours" min="0" max="99" id="hours" />
               <label class="active" for="hours">(hours)</label>
             </div>
             <div class="input-field col m2 s4">
-              <input type="number" v-model="minutes" min="0" max="60" id="mins" required />
+              <input type="number" v-model="minutes" min="0" max="60" id="mins" />
               <label class="active" for="mins">(minutes)</label>
             </div>
             <div class="input-field col m2 s4">
-              <input type="number" v-model="seconds" min="0" max="60" id="secs" required />
+              <input type="number" v-model="seconds" min="0" max="60" id="secs" />
               <label class="active" for="secs">(seconds)</label>
             </div>
           </div>

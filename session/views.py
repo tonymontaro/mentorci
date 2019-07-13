@@ -8,7 +8,7 @@ from django.http import JsonResponse
 
 from .models import SessionLog, SESSION_TYPES, SESSION_FEELINGS, PROJECTS
 from .serializers import SessionLogSerializer, DetailedSessionLogSerializer
-from student.models import Student
+from student.models import Student, STAGES
 from .decorators import validate_create_data, validate_update_data
 
 
@@ -120,5 +120,6 @@ def form_options(request, version):
         'projectDict': dict(PROJECTS),
         'typeDict': dict(SESSION_TYPES),
         'feelingDict': dict(SESSION_FEELINGS),
+        'stages': STAGES,
         'formUrl': os.getenv('formUrl')
     }, safe=False)
