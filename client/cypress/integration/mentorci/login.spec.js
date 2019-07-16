@@ -9,7 +9,7 @@ context("Login Page", () => {
     cy.get("#authLink").should("have.text", "Login/Register");
   });
 
-  it("can register user", () => {
+  it("can register and logout user", () => {
     cy.get("#loginForm")
       .find("a")
       .click();
@@ -18,6 +18,8 @@ context("Login Page", () => {
     cy.get("#signup-fullname").type("Testing Stuff");
     cy.get("#signup-password").type("testing000");
     cy.get("#signupForm").submit();
+    cy.get('a[href="/profile"]').click();
+    cy.get("#logOutBtn").click();
   });
 
   it("can login user", () => {

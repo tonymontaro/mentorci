@@ -105,13 +105,6 @@ class SessionLogDetailView(generics.RetrieveUpdateDestroyAPIView):
             return self._session_not_found(kwargs['pk'])
 
 
-def session_types(request, version):
-    return JsonResponse(SESSION_TYPES, safe=False)
-
-
-def session_feelings(request, version):
-    return JsonResponse(SESSION_FEELINGS, safe=False)
-
 def form_options(request, version):
     return JsonResponse({
         'types': SESSION_TYPES,

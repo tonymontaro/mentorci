@@ -39,8 +39,20 @@ Tools used;
 
 "Code without tests is broken as designed", said Jacob Kaplan-Moss. To run tests, enter the following command
 
+### BackEnd Tests
+
+- On the root folder, run
+
 ```bash
 $ python manage.py test
+```
+
+### Client Tests (E2E)
+
+- Navigate to the client folder (`client/`) and run
+
+```bash
+$ npm test
 ```
 
 ## Install and Run Locally

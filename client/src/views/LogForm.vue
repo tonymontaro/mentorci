@@ -215,10 +215,10 @@ export default {
       return this.$store.state.authentication.user;
     },
     sessionTypes() {
-      return this.$store.state.logs.sessionTypes;
+      return this.$store.state.options.options.types;
     },
     feelings() {
-      return this.$store.state.logs.sessionFeelings;
+      return this.$store.state.options.options.feelings;
     },
     projects() {
       return this.$store.state.options.options.projects;

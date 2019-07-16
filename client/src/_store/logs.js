@@ -6,8 +6,6 @@ export const logs = {
   namespaced: true,
   state: {
     logs: [],
-    sessionTypes: [],
-    sessionFeelings: [],
     import: ""
   },
   actions: {
@@ -32,14 +30,6 @@ export const logs = {
       commit("deleteLogSuccess", log);
       router.push("/sessions");
       return log;
-    },
-    async getSessionTypes({ commit }) {
-      const res = await axios.get(`sessions/types/`);
-      commit("getSessionTypesSuccess", res.data);
-    },
-    async getSessionFeelings({ commit }) {
-      const res = await axios.get(`sessions/feelings/`);
-      commit("getSessionFeelingsSuccess", res.data);
     }
   },
   mutations: {
@@ -59,12 +49,6 @@ export const logs = {
     },
     deleteLogSuccess(state, log) {
       state.logs = state.logs.filter(lg => lg.id != log.id);
-    },
-    getSessionTypesSuccess(state, sessionTypes) {
-      state.sessionTypes = sessionTypes;
-    },
-    getSessionFeelingsSuccess(state, sessionFeelings) {
-      state.sessionFeelings = sessionFeelings;
     },
     setImportText(state, importText) {
       state.import = importText;
