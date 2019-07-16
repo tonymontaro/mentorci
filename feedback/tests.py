@@ -28,7 +28,7 @@ class BaseFeedbackTest(BaseViewTest):
             "feedback-list-create", kwargs={"version": "v1"}),
             data=data)
 
-    def get_feedbacks(self):
+    def get_feedback(self):
         return self.client.get(
             reverse("feedback-list-create", kwargs={"version": "v1"}))
 
@@ -43,3 +43,40 @@ class ListCreateFeedbackTest(BaseFeedbackTest):
         self.assertEqual(response.data['summary'], self.feedback['summary'])
         self.assertEqual(response.data['score'], self.feedback['score'])
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_create_invalid_feedback(self):
+        feedback = dict(self.feedback)
+        feedback['student'] = 'asdf'
+        response = self.create_feedback(feedback)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_get_feedback(self):
+        response = self.get_feedback()
+        self.assertEqual(len(response.data), 0)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.create_feedback()
+        response = self.get_feedback()
+        self.assertEqual(len(response.data), 1)
+
+    def test_get_student_feedback(self):
+        self.create_feedback()
+        response = self.client.get(reverse(
+            "student-feedback",
+            kwargs={"version": "v1", 'student_id': self.student['id']}))
+        self.assertEqual(len(response.json()), 1)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class FeedbackDetailTest(BaseFeedbackTest):
+    """
+    Tests for the feedback/:id/ endpoint
+    """
+
+    def test_delete_feedback(self):
+        feedback = self.create_feedback().data
+
+        response = self.client.delete(reverse(
+            "feedback-detail",
+            kwargs={"version": "v1", 'pk': feedback['id']}))
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)

@@ -21,9 +21,16 @@ class ListCreateFeedbackView(generics.ListCreateAPIView):
         return Feedback.objects.filter(mentor=self.request.user)
 
     def post(self, request, *args, **kwargs):
+        studentID = request.data.get('student')
         try:
+            score = request.data.get('score')
+            if not score.isnumeric() or not studentID.isnumeric():
+                return Response(
+                    data={
+                        "message": 'student and score should be numeric.'},
+                    status=status.HTTP_400_BAD_REQUEST)
             student = Student.objects.filter(mentor=self.request.user).get(
-                pk=request.data.get('student'))
+                pk=studentID)
             feedback = Feedback.objects.create(
                 student=student,
                 mentor=request.user,
@@ -39,10 +46,36 @@ class ListCreateFeedbackView(generics.ListCreateAPIView):
             return Response(
                 data={
                     "message": "None of your students has an ID of {}".format(
-                        request.data.get('student'))},
+                        studentID)},
                 status=status.HTTP_404_NOT_FOUND
             )
 
 
-class FeedbackDetailView:
-    pass
+class FeedbackDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    DELETE feedback/:id/
+    """
+    queryset = Feedback.objects.all()
+    serializer_class = FeedbackSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            feedback = self.queryset.filter(mentor=self.request.user).get(
+                pk=kwargs["pk"])
+            feedback.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Feedback.DoesNotExist:
+            return Response(
+                data={
+                    "message": "Feedback with ID {} not found.".format(
+                        kwargs['pk'])},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+
+def get_student_feedback(request, version, *args, **kwargs):
+    feedback = Feedback.objects.filter(student=kwargs['student_id'])
+    return JsonResponse(
+        FeedbackSerializer(feedback, many=True).data, safe=False)
+# d
