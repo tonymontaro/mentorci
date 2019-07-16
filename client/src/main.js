@@ -6,7 +6,7 @@ import store from "./_store";
 Vue.config.productionTip = false;
 
 const errorMsg =
-  ".<br/> Possible reasons; 1. Invalid data supplied 2. Email already exist. 3. Missing field(s)";
+  ".<br/><br/><br/> Possible reasons; 1. Invalid data supplied 2. Email already exist. 3. Missing field(s) 4. Bug (please report as github issue)";
 window.addEventListener("unhandledrejection", function(event) {
   alert(event.reason + errorMsg);
 });

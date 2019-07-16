@@ -1,12 +1,12 @@
 <template>
   <div class="container">
     <div class="input-field">
-      <input type="text" placeholder="Search..." v-model="search">
+      <input type="text" placeholder="Search..." v-model="search" />
     </div>
 
     <div class="row" v-if="logs.length > 0 && Object.keys(studentsMap).length > 0">
       <div class="col s12" v-for="log in logs" v-bind:key="log.id">
-        <div class="card blue-grey darken-1 log-card">
+        <div v-if="log.student" class="card blue-grey darken-1 log-card">
           <div href="#" class="card-content white-text">
             <router-link
               :to="{ name: 'log-edit-form', params: { id: log.student, logid: log.id } }"
@@ -21,8 +21,10 @@
               {{ parseInt(log.durationInMins) }}mins |
               <span class="yellow-text">Type:</span>
               {{log.types.split('|').join(', ')}} |
-              <span class="yellow-text">Project(s):</span>
-              {{log.projects}} 
+              <span
+                class="yellow-text"
+              >Project(s):</span>
+              {{log.projects}}
             </p>
             <p>
               <span class="yellow-text">Summary:</span>

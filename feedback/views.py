@@ -24,7 +24,7 @@ class ListCreateFeedbackView(generics.ListCreateAPIView):
         studentID = request.data.get('student')
         try:
             score = request.data.get('score')
-            if not score.isnumeric() or not studentID.isnumeric():
+            if not str(score).isnumeric() or not str(studentID).isnumeric():
                 return Response(
                     data={
                         "message": 'student and score should be numeric.'},

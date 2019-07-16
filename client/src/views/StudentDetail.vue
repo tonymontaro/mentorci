@@ -72,55 +72,76 @@
         <button id="deleteStudentButton" @click.prevent="deleteStudent" class="right btn red">Delete</button>
       </form>
     </div>
-    <!-- Logs -->
-    <h4>Logs</h4>
-    <div class="row" v-if="logs.length > 0">
-      <div class="col s12" v-for="log in logs" v-bind:key="log.id">
-        <div class="card blue-grey darken-1 log-card">
-          <div href="#" class="card-content white-text">
-            <router-link
-              :to="{ name: 'log-edit-form', params: { id: log.student, logid: log.id } }"
-            >
-              <span class="card-title">{{ log.id }} | Date: {{ log.date }}</span>
-            </router-link>
+    <!-- Logs and Feedback -->
+    <div class="switch">
+      <label>
+        <h4>
+          <span class="toggle-text">{{ showFeedback ? "Feedback" : "Logs" }}</span>
+          <input type="checkbox" @change="toggleFeedback" />
+          <span class="lever"></span>
+        </h4>
+      </label>
+    </div>
+    <div class="logs-div" v-if="!showFeedback">
+      <div class="row" v-if="logs.length > 0">
+        <div class="col s12" v-for="log in logs" v-bind:key="log.id">
+          <div class="card blue-grey darken-1 log-card">
+            <div href="#" class="card-content white-text">
+              <router-link
+                :to="{ name: 'log-edit-form', params: { id: log.student, logid: log.id } }"
+              >
+                <span class="card-title">{{ log.id }} | Date: {{ log.date }}</span>
+              </router-link>
 
-            <p>
-              <span class="yellow-text">Duration:</span>
-              {{ parseInt(log.durationInMins) }}mins |
-              <span class="yellow-text">Type:</span>
-              {{log.types.split('|').join(', ')}} |
-              <span
-                class="yellow-text"
-              >Project(s):</span>
-              {{log.projects}}
-            </p>
-            <p>
-              <span class="yellow-text">Summary:</span>
-              {{ log.summary }}
-            </p>
-            <p v-if="log.concern">
-              <span class="yellow-text">Concern:</span>
-              {{ log.concern }}
-            </p>
+              <p>
+                <span class="yellow-text">Duration:</span>
+                {{ parseInt(log.durationInMins) }}mins |
+                <span
+                  class="yellow-text"
+                >Type:</span>
+                {{log.types.split('|').join(', ')}} |
+                <span
+                  class="yellow-text"
+                >Project(s):</span>
+                {{log.projects}}
+              </p>
+              <p>
+                <span class="yellow-text">Summary:</span>
+                {{ log.summary }}
+              </p>
+              <p v-if="log.concern">
+                <span class="yellow-text">Concern:</span>
+                {{ log.concern }}
+              </p>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="feedback-div" v-else>
+      <Feedback :studentId="student.id" />
     </div>
   </div>
 </template>
 
 <script>
 import { validLink } from "../_helpers";
+import Feedback from "./components/Feedback.vue";
 
 export default {
   name: "student-detail",
+  components: {
+    Feedback
+  },
   data() {
     return {
-      editStudentDetail: false
+      editStudentDetail: false,
+      showFeedback: false
     };
   },
   mounted() {
     $("select").formSelect();
+    this.$store.dispatch("students/getFeedback", this.$route.params.id);
   },
   computed: {
     student() {
@@ -160,6 +181,9 @@ export default {
     },
     async deleteStudent() {
       await this.$store.dispatch("students/deleteStudent", this.student);
+    },
+    toggleFeedback() {
+      this.showFeedback = !this.showFeedback;
     }
   },
   filters: {
@@ -171,5 +195,13 @@ export default {
 <style>
 i.fa-pencil-alt {
   font-size: 25px;
+}
+.switch h4 {
+  display: inline-block;
+  padding: 0;
+}
+.toggle-text {
+  display: inline-block;
+  width: 150px;
 }
 </style>
