@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'mentor',
     'student',
     'session',
+    'feedback',
 ]
 
 MIDDLEWARE = [
