@@ -1,5 +1,4 @@
 import router from "../router";
-import { logService } from "../_services";
 import axios from "../_config";
 
 export const logs = {
@@ -10,12 +9,12 @@ export const logs = {
   },
   actions: {
     async getLogs({ commit }) {
-      const logs = await logService.getLogs();
+      const logs = (await axios.get("sessions/")).data;
       commit("getLogsSuccess", logs);
       return logs;
     },
     async createLog({ commit }, log) {
-      const newLog = await logService.createLog(log);
+      const newLog = (await axios.post("sessions/", log)).data;
       commit("createLogSuccess", newLog);
       return newLog;
     },

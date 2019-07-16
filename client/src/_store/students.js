@@ -1,4 +1,4 @@
-import { studentService } from "../_services";
+import axios from "../_config";
 import router from "../router";
 
 export const students = {
@@ -8,22 +8,25 @@ export const students = {
   },
   actions: {
     async getStudents({ commit }) {
-      const students = await studentService.getStudents();
+      const students = (await axios.get(`students/`)).data;
       commit("getStudentsSuccess", students);
       return students;
     },
     async updateStudent({ commit }, student) {
-      const updatedStudent = await studentService.updateStudent(student);
+      const updatedStudent = (await axios.put(
+        `students/${student.id}/`,
+        student
+      )).data;
       commit("updateStudentSuccess", updatedStudent);
       return updatedStudent;
     },
     async deleteStudent({ commit }, student) {
-      const updatedStudent = await studentService.deleteStudent(student);
+      await axios.delete(`students/${student.id}`);
       commit("deleteStudentSuccess", student);
       router.push("/");
     },
     async createStudent({ commit }, student) {
-      const newStudent = await studentService.createStudent(student);
+      const newStudent = (await axios.post(`students/`, student)).data;
       commit("createStudentSuccess", newStudent);
       return newStudent;
     }
