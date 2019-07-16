@@ -1,6 +1,5 @@
+import axios from "../_config";
 import router from "../router";
-import { userService } from "../_services";
-
 const user = JSON.parse(localStorage.getItem("user"));
 
 export const authentication = {
@@ -10,41 +9,26 @@ export const authentication = {
     : { status: {}, user: null },
   actions: {
     logout({ commit }) {
-      userService.logout();
+      localStorage.removeItem("user");
       commit("logout");
       router.push("/login");
     },
-    login({ commit }, user) {
-      userService
-        .login(user)
-        .then(user => {
-          commit("loginSuccess", user);
-          router.push("/");
-        })
-        .catch(error => {
-          commit("loginFailure", error);
-        });
+    async login({ commit }, user) {
+      const userData = (await axios.post(`auth/login/`, user)).data;
+      localStorage.setItem("user", JSON.stringify(userData));
+      commit("loginSuccess", userData);
+      router.push("/");
     },
-    signup({ commit }, user) {
-      userService
-        .signup(user)
-        .then(user => {
-          commit("loginSuccess", user);
-          router.push("/");
-        })
-        .catch(error => {
-          commit("loginFailure", error);
-        });
+    async signup({ commit }, user) {
+      const userData = (await axios.post(`auth/register/`, user)).data;
+      localStorage.setItem("user", JSON.stringify(userData));
+      commit("loginSuccess", userData);
+      router.push("/");
     },
-    updateMentor({ commit }, user) {
-      userService
-        .update(user)
-        .then(user => {
-          commit("loginSuccess", user);
-        })
-        .catch(() => {
-          alert("Invalid Details provided");
-        });
+    async updateMentor({ commit }, user) {
+      const userData = (await axios.put(`mentors/${user.id}/`, user)).data;
+      localStorage.setItem("user", JSON.stringify(userData));
+      commit("loginSuccess", user);
     }
   },
   mutations: {

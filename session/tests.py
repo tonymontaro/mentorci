@@ -104,17 +104,17 @@ class SessionDetailTest(BaseSessionTest):
 
 class GetSessionTypesTest(BaseViewTest):
     """
-    Tests for the sessions/stages/ endpoint
+    Tests for Session Types option
     """
 
     def test_get_session_types(self):
         self.login_client()
 
         response = self.client.get(reverse(
-            "session-types", kwargs={"version": "v1"}))
+            "options", kwargs={"version": "v1"}))
         expected = [list(item) for item in SESSION_TYPES]
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.json(), expected)
+        self.assertEqual(response.json()['types'], expected)
 
 
 class GetSessionFellingsTest(BaseViewTest):
@@ -126,7 +126,7 @@ class GetSessionFellingsTest(BaseViewTest):
         self.login_client()
 
         response = self.client.get(reverse(
-            "session-feelings", kwargs={"version": "v1"}))
+            "options", kwargs={"version": "v1"}))
         expected = [list(item) for item in SESSION_FEELINGS]
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.json(), expected)
+        self.assertEqual(response.json()['feelings'], expected)

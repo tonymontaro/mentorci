@@ -11,8 +11,6 @@ export function validLink(link) {
 export async function initApp(store, token) {
   init_axios(token);
   await store.dispatch("students/getStudents");
-  await store.dispatch("logs/getSessionTypes");
-  await store.dispatch("logs/getSessionFeelings");
   await store.dispatch("logs/getLogs");
   await store.dispatch("options/getOptions");
 }
