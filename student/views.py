@@ -78,9 +78,3 @@ class StudentDetailView(generics.RetrieveUpdateDestroyAPIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Student.DoesNotExist:
             return self._student_not_found(kwargs['pk'])
-
-
-def student_stages(request, version):
-    return JsonResponse(STAGES, safe=False)
-
-# Todo; Handle DataBase failure

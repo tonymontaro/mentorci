@@ -24,3 +24,5 @@ tests_output/
 
 cypress/integration/examples
 cypress/examples/
+cypress/screenshots/
+cypress/videos/

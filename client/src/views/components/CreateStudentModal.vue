@@ -77,13 +77,13 @@ export default {
   },
   async mounted() {
     $(".modal").modal();
-    if (this.$store.state.stages.stages.length == 0)
-      await this.$store.dispatch("stages/getStages");
+    if (!this.$store.state.options.options.stages)
+      await this.$store.dispatch("options/getOptions");
     $("select").formSelect();
   },
   computed: {
     stages() {
-      return this.$store.state.stages.stages;
+      return this.$store.state.options.options.stages;
     }
   },
   methods: {

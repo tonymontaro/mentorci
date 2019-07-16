@@ -75,13 +75,13 @@ class StudentDetailTest(BaseStudentTest):
 
 class GetStagesTest(BaseViewTest):
     """
-    Tests for the students/stages/ endpoint
+    Tests Getting Stages
     """
 
     def test_get_stages(self):
         self.login_client()
 
         response = self.client.get(reverse(
-            "student-stages", kwargs={"version": "v1"}))
+            "options", kwargs={"version": "v1"}))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.json(), STAGES)
+        self.assertEqual(response.json()['stages'], STAGES)

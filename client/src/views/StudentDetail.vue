@@ -39,7 +39,7 @@
           <div class="input-field col m6 s12">
             <select v-model="student.stage">
               <option
-                v-for="stage in $store.state.stages.stages"
+                v-for="stage in $store.state.options.options.stages"
                 v-bind:key="stage"
                 :value="stage"
               >{{ stage }}</option>
