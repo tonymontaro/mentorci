@@ -61,22 +61,11 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.fullPath !== "/login") {
-    if (!store.state.authentication.user || isTokenExpired()) {
-      localStorage.clear();
+    if (!store.state.authentication.user) {
       return next("/login");
     }
   }
   next();
 });
-
-function isTokenExpired() {
-  const token =
-    JSON.parse(localStorage.getItem("user")) &&
-    JSON.parse(localStorage.getItem("user"))["token"];
-  if (!token || jwt_decode(token).exp < Date.now() / 1000) {
-    return true;
-  }
-  return false;
-}
 
 export default router;
