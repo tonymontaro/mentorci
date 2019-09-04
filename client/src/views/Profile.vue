@@ -161,7 +161,7 @@ export default {
       this.logData.map(d => {
         const year = d.fullDate.getFullYear();
         let month = d.fullDate.getMonth() + 1;
-        month = month > 8 ? month : "0" + month;
+        month = month > 9 ? month : "0" + month;
         const date = `${year}-${month}`;
         if (!months.includes(date)) months.push(date);
       });
