@@ -21,7 +21,6 @@ export const logs = {
     async updateLog({ commit }, log) {
       const updatedLog = await axios.put(`sessions/${log.id}/`, log);
       commit("updateLogSuccess", updatedLog);
-      router.push("/sessions");
       return updatedLog;
     },
     async deleteLog({ commit }, log) {
