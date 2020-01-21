@@ -100,13 +100,27 @@
               <input v-model="invoice.hourlyFee" id="hourlyFee" type="text" />
               <label class="active" for="hourlyFee">Hourly Fee</label>
             </div>
+            <div class="input-field col m6 s12">
+              <input
+                v-model="localConvertionRate"
+                v-on:change="storeRate"
+                id="hourlyFee"
+                type="number"
+              />
+              <label class="active" for="hourlyFee">Local Currency Convertion Rate</label>
+            </div>
           </div>
           <button class="btn">Generate Invoice</button>
         </form>
       </div>
 
       <p>Hours: {{ totals.hours }}</p>
-      <p>Total Billable: &euro;{{ totals.euros_billable }}</p>
+      <p>
+        Total Billable: &euro;{{ totals.euros_billable }}
+        <span
+          v-if="localConvertionRate > 0"
+        >{{` (${parseInt(localConvertionRate*totals.euros_billable).toLocaleString()})`}}</span>
+      </p>
     </div>
 
     <div id="dayVsMins"></div>
@@ -129,6 +143,7 @@ export default {
         euros_billable: 0
       },
       billRate: 50,
+      localConvertionRate: localStorage.getItem("localConvertionRate") || 0,
       month: this.getCurrentYearMonth(),
       editMentorDetail: false,
       showInvoiceForm: false,
@@ -265,6 +280,9 @@ export default {
     logout() {
       this.$store.dispatch("authentication/logout");
       this.$store.dispatch("clearAll");
+    },
+    storeRate() {
+      localStorage.setItem("localConvertionRate", this.localConvertionRate);
     }
   }
 };
