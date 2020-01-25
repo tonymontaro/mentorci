@@ -122,6 +122,7 @@ export default {
     return {
       log: {
         student: 0,
+        studentName: '',
         mentor: 0,
         date: undefined,
         duration: "",
@@ -177,6 +178,7 @@ export default {
           mentorName = `&entry.838873576=${this.mentor.fullname}`,
           date = `&entry.1191000917=${this.log.date}`,
           studentEmail = `&entry.1269347964=${this.student.email}`,
+          studentName = `&entry.1846957123=${this.student.name}`,
           types = this.sessionType.reduce(
             (cummulative, item) =>
               cummulative + `&entry.1521715512=${options.typeDict[item]}`,
@@ -200,6 +202,7 @@ export default {
             mentorName +
             date +
             studentEmail +
+            studentName +
             types +
             projects +
             duration +
