@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <header>
+    <h1 style="text-align: center">Upgrading Server... Please check back later.</h1>
+    <!-- <header>
       <div id="nav" class="center-align">
         <div v-if="$store.state.authentication.user">
           <router-link to="/">Home |&nbsp;</router-link>
@@ -24,7 +25,7 @@
           target="_blank"
         >on github</a>
       </div>
-    </footer>
+    </footer>-->
   </div>
 </template>
 
