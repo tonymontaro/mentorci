@@ -8,7 +8,7 @@ Automate and Track CI Mentorship sessions.
 
 ## Features
 
-App available here; http://mentorci.ga/
+App available here; http://mentorci.online/
 
 - organize all student data in central location
 - easily view previous logs for a student
