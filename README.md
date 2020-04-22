@@ -89,7 +89,7 @@ The API should be deployed with a hosting service that supports Docker container
 
 - Create an instance and clone the repository content
 - create a .env file and ensure that the following environmental variables are specified; DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_URL, GMAIL, and GMAIL_PASSWORD.
-- Change instances of "api.mentorci.ga" to your domain name the **init-letsencrypt.sh** and **data/nginx/app.conf** files
+- Change instances of "api.mentorci.online" to your domain name the **init-letsencrypt.sh** and **data/nginx/app.conf** files
 - Run; `./init-letsencrypt.sh`
 - finally start the server with `docker-compose up` or it's equivalent in your deployment environment.
 
