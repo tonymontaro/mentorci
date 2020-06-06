@@ -1,7 +1,7 @@
 import axios from "axios";
 import store from "../_store";
 
-let apiUrl = "https://api.mentorci.online/api/v1/";
+let apiUrl = "https://mentorci.herokuapp.com/api/v1";
 if (process.env.NODE_ENV === "development")
   apiUrl = "http://127.0.0.1:8000/api/v1/";
 
