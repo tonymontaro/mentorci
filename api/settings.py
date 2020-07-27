@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv('SECRET', 'k@cfxx3(lw8t)@hu%+-5)s@0zx^(5@o')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.getenv('DEBUG', False))
 
-ALLOWED_HOSTS = ["web", "localhost", "127.0.0.1", "mentorci.herokuapp.com"]
+ALLOWED_HOSTS = ["web", "localhost", "127.0.0.1", "mentorci.herokuapp.com", "api.mentorci.online"]
 
 # Application definition
 
