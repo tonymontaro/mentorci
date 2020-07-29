@@ -177,4 +177,4 @@ class Invoice(generics.CreateAPIView):
 
 def home(request,url):
     print(url)
-    return JsonResponse({'message': 'Not found.'}, status=404)
+    return JsonResponse({'urlNotFound': url}, status=200)
