@@ -11,5 +11,6 @@ urlpatterns = [
     re_path('api/(?P<version>(v1|v2))/', include('student.urls')),
     re_path('api/(?P<version>(v1|v2))/', include('session.urls')),
     re_path('api/(?P<version>(v1|v2))/', include('feedback.urls')),
-    re_path(r'^(?P<url>.*)/?$', home),
+    re_path(r'^(?P<url>.*)/$', home),
+    re_path(r'^(?P<url>.*)$', home),
 ]
