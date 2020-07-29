@@ -3,6 +3,7 @@ from collections import defaultdict
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.core.mail import EmailMessage
+from django.http import JsonResponse
 from rest_framework import generics
 from rest_framework import permissions
 from rest_framework.response import Response
@@ -173,3 +174,7 @@ class Invoice(generics.CreateAPIView):
             data={"message": "Invoice sent."},
             status=status.HTTP_201_CREATED
         )
+
+def home(request,url):
+    print(url)
+    return JsonResponse({'message': 'Not found.'}, status=404)
