@@ -98,3 +98,4 @@ client/package-lock.json
 data/certbot/
 data.json
 db1.json
+data/nginx/a.conf

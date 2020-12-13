@@ -3,6 +3,10 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./_store";
 
+// register jw pagination component globally
+import JwPagination from 'jw-vue-pagination';
+Vue.component('jw-pagination', JwPagination);
+
 Vue.config.productionTip = false;
 
 const errorMsg =

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "jw-vue-pagination": "^1.0.3",
     "jwt-decode": "^2.2.0",
     "moment": "^2.24.0",
     "vue": "^2.6.6",

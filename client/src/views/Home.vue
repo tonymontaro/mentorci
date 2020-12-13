@@ -19,7 +19,7 @@
     </div>
 
     <div class="row">
-      <div class="col s12 l4 m6" v-for="student in students" v-bind:key="student.id">
+      <div class="col s12 l4 m6" v-for="student in pageOfItems" v-bind:key="student.id">
         <div class="card blue-grey darken-1 student-card" :testid="student.name">
           <div href="#" class="card-content white-text">
             <span class="card-title">
@@ -50,7 +50,12 @@
         </div>
       </div>
     </div>
+          <div class="card-footer pb-0 pt-3">
+            <jw-pagination :items="students" @changePage="onChangePage" :disableDefaultStyles="true" :pageSize="9"></jw-pagination>
+        </div>
     <h5>total: {{ students.length }}</h5>
+
+    
 
     <div class="fixed-action-btn">
       <a class="btn-floating btn-large" href="#pageTop">
@@ -73,7 +78,8 @@ export default {
   },
   data() {
     return {
-      search: ""
+      search: "",
+      pageOfItems: []
     };
   },
   async mounted() {
@@ -102,6 +108,11 @@ export default {
       return word.length > num ? word.slice(0, num - 2) + " ..." : word;
     },
     validLink
+  },
+  methods: {
+    onChangePage(pageOfItems) {
+      this.pageOfItems = pageOfItems;
+    }
   }
 };
 </script>
@@ -145,5 +156,8 @@ body {
 }
 .student-search {
   margin-top: 5px;
+}
+.pagination li a {
+  cursor: pointer;
 }
 </style>

@@ -5,7 +5,7 @@
     </div>
 
     <div class="row" v-if="logs.length > 0 && Object.keys(studentsMap).length > 0">
-      <div class="col s12" v-for="log in logs" v-bind:key="log.id">
+      <div class="col s12" v-for="log in pageOfItems" v-bind:key="log.id">
         <div v-if="log.student" class="card blue-grey darken-1 log-card">
           <div href="#" class="card-content white-text">
             <router-link
@@ -39,6 +39,10 @@
       </div>
     </div>
 
+          <div class="card-footer pb-0 pt-3">
+            <jw-pagination :items="logs" @changePage="onChangePage" :disableDefaultStyles="true"></jw-pagination>
+        </div>
+
     <div class="fixed-action-btn">
       <a class="btn-floating btn-large" href="#pageTop">
         <i class="fas fa-chevron-up"></i>
@@ -52,7 +56,8 @@ export default {
   name: "logs",
   data() {
     return {
-      search: ""
+      search: "",
+      pageOfItems: []
     };
   },
   computed: {
@@ -86,6 +91,9 @@ export default {
       if (this.$store.state.logs.logs.length === 0) {
         await this.$store.dispatch("logs/getLogs");
       }
+    },
+    onChangePage(pageOfItems) {
+      this.pageOfItems = pageOfItems;
     }
   }
 };
@@ -95,4 +103,5 @@ export default {
 .log-card .card-content {
   padding: 10px 20px;
 }
+
 </style>
