@@ -166,10 +166,12 @@ class Invoice(generics.CreateAPIView):
                                session_data)
         msg = EmailMessage("CodeInstitute Invoice - {}".format(date),
                            "Find the invoice attached.",
+                           "bossmontaro@gmail.com",
                            to=[request.user.email])
         msg.attach('Invoice-{}.pdf'.format(date), pdf, 'application/pdf')
         msg.content_subtype = "html"
         msg.send()
+
         return Response(
             data={"message": "Invoice sent."},
             status=status.HTTP_201_CREATED
