@@ -9,6 +9,6 @@ psycopg2-binary==2.8.2
 PyJWT==1.6.1
 python-dotenv==0.10.1
 pytz==2018.3
-reportlab==3.5.21
+reportlab==3.5.55
 sqlparse==0.3.0
 whitenoise==3.3.1
